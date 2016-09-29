@@ -20,26 +20,30 @@
 
           if(strpos($potongan, "%") !== false)
           {
-              echo $potongan_jadi = $a * $potongan / 100;
-              echo $potongan_tampil = $potongan_jadi;
+               $potongan_jadi = $a * $potongan / 100;
+               $potongan_tampil = $potongan_jadi;
           }
           else{
 
              $potongan_jadi = $potongan;
-             echo $potongan_tampil = $potongan;
+              $potongan_tampil = $potongan;
           }
     $tax = stringdoang($_POST['tax']);
     $satu = 1;
     $x = $a - $potongan_tampil;
 
-    $hasil_tax = $satu + ($tax / 100);
+        $hasil_tax = $satu + ($tax / 100); echo "<br>";
+        
+        $hasil_tax2 = $x / $hasil_tax; echo "<br>";
 
-    $hasil_tax2 = $x / $hasil_tax;
+        $tax_persen = $x - $hasil_tax2; echo "<br>";
+        
+       echo $tax_persen = round($tax_persen);
 
-    $tax_persen = $x - $hasil_tax2;
-    
 
     if ( $harga != $harga_baru) {
+
+
 
       $query00 = $db->query("UPDATE barang SET harga_beli = '$harga_baru' WHERE kode_barang = '$kode_barang'");
       $harga_beli = $harga_baru;

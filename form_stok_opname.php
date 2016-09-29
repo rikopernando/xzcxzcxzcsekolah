@@ -558,7 +558,7 @@
                   $.post("proses_selesai_stok_opname.php",{no_faktur:no_faktur,total_selisih_harga:total_selisih_harga},function(info) {
                   
                   $("#demo").html(info);
-                  $("#result").load('tabel_stok_opname.php');
+                  $("#result").html(info);
                   $("#total_selisih_harga").val('');
                    
   

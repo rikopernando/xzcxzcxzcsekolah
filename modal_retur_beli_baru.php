@@ -49,6 +49,7 @@ include 'db.php';
 
         $sisa = $data1['sisa'];
         $harga = $data1['harga'];
+        $jumlah_barang = $data1['jumlah_barang'];
       }
 
 if ($sisa == 0)

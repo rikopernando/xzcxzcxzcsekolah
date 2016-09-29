@@ -4,9 +4,11 @@
     include 'db.php';
 
     
-  $kode_barang = stringdoang($_POST['kode_barang']);
-  $harga = angkadoang($_POST['harga']);
-    $jumlah_retur = angkadoang($_POST['jumlah_retur']);
+   $kode_barang = stringdoang($_POST['kode_barang']);
+   $harga = angkadoang($_POST['harga']);
+   $jumlah_retur = angkadoang($_POST['jumlah_retur']);
+   $satuan_produk = stringdoang($_POST['satuan_produk']);
+   $satuan_beli = stringdoang($_POST['satuan_beli']);
 
       $pajak = angkadoang($_POST['tax1']);
 
@@ -39,17 +41,6 @@
     
     $subtotal = $harga * $jumlah_retur - $potongan_jadi;
 
-   
-   $query9 = $db->prepare("UPDATE detail_pembelian SET sisa = sisa - ? WHERE kode_barang = ?  ");
-
-   $query9->bind_param("is",
-    $jumlah_retur, $kode_barang);
-    
-    $jumlah_retur = angkadoang($_POST['jumlah_retur']);
-  $kode_barang = stringdoang($_POST['kode_barang']);
-
-
-   $query9->execute();
 
     
     $no_faktur_retur = stringdoang($_POST['no_faktur_retur']);
@@ -72,10 +63,10 @@
      }
 
 
-   $perintah = $db->prepare("INSERT INTO tbs_retur_pembelian (no_faktur_retur,no_faktur_pembelian,kode_barang,nama_barang,jumlah_beli,jumlah_retur,harga,subtotal,potongan,tax) VALUES (?,?,?,?,'$jumlah_beli',?,'$harga',?,?,?)");
+   $perintah = $db->prepare("INSERT INTO tbs_retur_pembelian (no_faktur_retur,no_faktur_pembelian,kode_barang,nama_barang,jumlah_beli,jumlah_retur,harga,subtotal,potongan,tax,satuan,satuan_beli) VALUES (?,?,?,?,'$jumlah_beli',?,'$harga',?,?,?,?,?)");
 
-   $perintah->bind_param("ssssiiii",
-    $no_faktur_retur, $no_faktur_pembelian, $kode_barang, $nama_barang, $jumlah_retur, $subtotal, $potongan_tampil, $tax_persen);
+   $perintah->bind_param("ssssiiiiss",
+    $no_faktur_retur, $no_faktur_pembelian, $kode_barang, $nama_barang, $jumlah_retur, $subtotal, $potongan_tampil, $tax_persen,$satuan_produk,$satuan_beli);
 
     $no_faktur_retur = stringdoang($_POST['no_faktur_retur']);
     $no_faktur_pembelian = stringdoang($_POST['no_faktur_pembelian']);
@@ -115,7 +106,7 @@ else {
       <td>". rp($data1['jumlah_beli']) ." ".$data1['satuan_beli']."</td>
 
 
-      <td class='edit-jumlah' data-id='".$data1['id']."' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."'> <span id='text-jumlah-".$data1['id']."'> ".$data1['jumlah_retur']." </span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['jumlah_retur']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."' data-harga='".$data1['harga']."' onkeydown='return numbersonly(this, event);'> </td>
+      <td class='edit-jumlah' data-id='".$data1['id']."' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."'> <span id='text-jumlah-".$data1['id']."'> ".$data1['jumlah_retur']." </span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['jumlah_retur']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."' data-harga='".$data1['harga']."' data-satuan='".$data1['satuan']."' onkeydown='return numbersonly(this, event);'> </td>
 
       <td>". $data1['satuan_retur']."</td>
       <td>". rp($data1['harga']) ."</td>
@@ -153,7 +144,7 @@ else {
 
                                     var id = $(this).attr("data-id");
                                     var jumlah_baru = $(this).val();
-                                     if (jumlah_baru == '')
+                                    if (jumlah_baru == '')
                                     {
                                       jumlah_baru = 0;
                                     }
@@ -161,14 +152,26 @@ else {
                                     var no_faktur = $(this).attr("data-faktur");
                                     var harga = $(this).attr("data-harga");
                                     var jumlah_retur = $("#text-jumlah-"+id+"").text();
+                                    var no_faktur_retur = $("#nomorfaktur").val();
+                                    var satuan = $(this).attr("data-satuan");
 
                                     var subtotal_lama = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-subtotal-"+id+"").text()))));
                                    
                                     var potongan = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-potongan-"+id+"").text()))));
 
+                                    var sub_total = parseInt(harga,10) * parseInt(jumlah_baru,10);
+                                   
+                                   var total_tbs = parseInt(harga,10) * parseInt(jumlah_retur,10);
+                                   // rupiah to persen
+                                    var potongan_tbs = parseInt(Math.round(potongan, 10)) / parseInt(total_tbs) * 100;
+                                    //rupiah to persen
+
+                                    var jumlah_potongan = parseInt(Math.round(potongan_tbs)) * parseInt(sub_total) / 100;
+
+
                                     var tax = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-tax-"+id+"").text()))));
 
-                                    var subtotal = parseInt(harga,10) * parseInt(jumlah_baru,10) - parseInt(potongan,10);
+                                    var subtotal = parseInt(harga,10) * parseInt(jumlah_baru,10) - parseInt(jumlah_potongan,10);
                                     
                                     var subtotal_penjualan = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#total_retur_pembelian").val()))));
                                     
@@ -178,32 +181,32 @@ else {
                                     var jumlah_tax = tax_tbs * subtotal / 100;
 
 
-                                    $.post("cek_stok_pesanan_barang_retur_pembelian.php",{kode_barang:kode_barang, jumlah_baru:jumlah_baru, no_faktur:no_faktur},function(data){
-                                      
-                                    if (data == "ya")
-                                        {
+                                     if (jumlah_baru == 0) {
 
-                                        alert ("Jumlah Yang Di Masukan Melebihi Stok !");
+                                       alert ("Jumlah Retur Tidak Boleh 0!");
+                                       
+                                       $("#input-jumlah-"+id+"").val(jumlah_retur);
+                                       $("#text-jumlah-"+id+"").text(jumlah_retur);
+                                       $("#text-jumlah-"+id+"").show();
+                                       $("#input-jumlah-"+id+"").attr("type", "hidden");
+                                    }
+
+                                    else{
+
+                                   $.post("cek_total_tbs_edit_retur_pembelian.php",{kode_barang:kode_barang, jumlah_baru:jumlah_baru, no_faktur:no_faktur,no_faktur_retur:no_faktur_retur,satuan:satuan},function(data){
+
+                                       if (data < 0) {
+
+                                       alert ("Jumlah Yang Di Masukan Melebihi Stok !");
                                         $("#input-jumlah-"+id+"").val(jumlah_retur);
                                         $("#text-jumlah-"+id+"").show();
                                         $("#input-jumlah-"+id+"").attr("type", "hidden");
+                                     }
 
-                                        }
 
+                                      else{
 
-                                    else if (jumlah_baru == '0')
-                                        {
-
-                                        alert ("Jumlah Yang Di Masukan Tidak Boleh (0/Kosong) ");
-                                        $("#input-jumlah-"+id+"").val(jumlah_retur);
-                                        $("#text-jumlah-"+id+"").show();
-                                        $("#input-jumlah-"+id+"").attr("type", "hidden");
-
-                                        }
-
-                                  else{
-
-                                     $.post("update_pesanan_barang_retur_pembelian.php",{harga:harga,jumlah_retur:jumlah_retur,jumlah_tax:jumlah_tax,potongan:potongan,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang,subtotal:subtotal},function(info){
+                                     $.post("update_pesanan_barang_retur_pembelian.php",{harga:harga,jumlah_retur:jumlah_retur,jumlah_tax:Math.round(jumlah_tax),jumlah_potongan:jumlah_potongan,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang,subtotal:subtotal},function(info){
 
                                   
                                     $("#text-jumlah-"+id+"").show();
@@ -211,16 +214,22 @@ else {
                                     $("#text-subtotal-"+id+"").text(tandaPemisahTitik(subtotal));
                                     $("#btn-hapus-"+id).attr("data-subtotal", subtotal);
                                     $("#input-jumlah-"+id+"").attr("type", "hidden"); 
-                                    $("#text-tax-"+id+"").text(jumlah_tax);
+                                    $("#text-tax-"+id+"").text(Math.round(jumlah_tax));
+                                    $("#text-potongan-"+id+"").text(Math.round(jumlah_potongan));
                                     $("#total_retur_pembelian").val(tandaPemisahTitik(subtotal_penjualan)); 
                                     $("#total_retur_pembelian1").val(tandaPemisahTitik(subtotal_penjualan));         
-
                                     });
 
                                    }
 
+
                                  });
 
+
+                                    }
+
+
+ 
 
        
                                     $("#kode_barang").focus();

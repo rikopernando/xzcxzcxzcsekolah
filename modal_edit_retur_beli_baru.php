@@ -91,17 +91,18 @@ if ($jumlah_konversi == '')
       {
 
           $penentu_satuan = 1;
+          $jumlah_tampil = $data['jumlah_barang'];
       }
       else
       {
-      $penentu_satuan = $sisa_barang_sebenarnya % $jumlah_konversi;
+          $penentu_satuan = $sisa_barang_sebenarnya % $jumlah_konversi;
+          $jumlah_tampil = $data['jumlah_barang'] /  $jumlah_konversi; 
       }
 //sisa barang yang tampil pada modal
 if ($data['satuan_barang'] == $data['satuan_beli']) {
-       echo  $sisa_barang_tampil = $sisa_barang_sebenarnya;
+        $sisa_barang_tampil = $sisa_barang_sebenarnya;
         $satuan_tampil = $data['satuan_beli'];
         $harga_tampil = $data['harga'];
-        $jumlah_tampil = $data['jumlah_barang'];
 
 
 }
@@ -111,8 +112,7 @@ else{
         if ($penentu_satuan == 0) {
            $harga_tampil = $data['harga'] * $jumlah_konversi;
            $sisa_barang_tampil = $sisa_barang_sebenarnya / $jumlah_konversi;
-           $satuan_tampil = $data['satuan_beli']; 
-           $jumlah_tampil = $data['jumlah_barang'] /  $jumlah_konversi; 
+           $satuan_tampil = $data['satuan_beli'];
 
         }//end if ($penentu_satuan == 0)
         else
@@ -120,7 +120,6 @@ else{
           $sisa_barang_tampil = $sisa_barang_sebenarnya;
           $satuan_tampil = $data['satuan_barang'];
           $harga_tampil = $data['harga'];
-          $jumlah_tampil = $data['jumlah_barang'];
 
         }
 

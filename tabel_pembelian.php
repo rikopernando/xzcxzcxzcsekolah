@@ -44,9 +44,9 @@
 
       <td>". $data1['nama'] ."</td>
       <td>". rp($data1['harga']) ."</td>
-      <td><span id='text-subtotal-".$data1['id']."'>". $data1['subtotal'] ."</span></td>
-      <td><span id='text-potongan-".$data1['id']."'>". $data1['potongan'] ."</span></td>
-      <td><span id='text-tax-".$data1['id']."'>". $data1['tax'] ."</span></td>
+      <td><span id='text-subtotal-".$data1['id']."'>". rp($data1['subtotal']) ."</span></td>
+      <td><span id='text-potongan-".$data1['id']."'>". rp($data1['potongan']) ."</span></td>
+      <td><span id='text-tax-".$data1['id']."'>". rp($data1['tax']) ."</span></td>
 
      <td> <button class='btn btn-danger btn-hapus-tbs' data-id='". $data1['id'] ."' data-subtotal='".$data1['subtotal']."' data-barang='". $data1['nama_barang'] ."'><span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> 
                 

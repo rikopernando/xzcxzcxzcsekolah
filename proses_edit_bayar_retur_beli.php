@@ -77,8 +77,29 @@ $tahun_terakhir = substr($tahun_sekarang, 2);
     while ($data = mysqli_fetch_array($query))
     {
 
-        $query2 = $db->query("INSERT INTO detail_retur_pembelian (no_faktur_retur, no_faktur_pembelian, tanggal, kode_barang, nama_barang, jumlah_beli, jumlah_retur, harga, subtotal, potongan, tax) 
-		VALUES ('$data[no_faktur_retur]','$data[no_faktur_pembelian]','$tanggal','$data[kode_barang]','$data[nama_barang]','$data[jumlah_beli]','$data[jumlah_retur]','$data[harga]','$data[subtotal]','$data[potongan]','$data[tax]')");
+     $pilih_konversi = $db->query("SELECT  sk.konversi * $data[jumlah_retur] AS jumlah_konversi, $data[subtotal] / ($data[jumlah_retur] * sk.konversi) AS harga_konversi, sk.id_satuan, b.satuan FROM satuan_konversi sk INNER JOIN barang b ON sk.id_produk = b.id  WHERE sk.id_satuan = '$data[satuan]' AND sk.kode_produk = '$data[kode_barang]'");
+      $data_konversi = mysqli_fetch_array($pilih_konversi);
+
+      if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {
+        $harga = $data_konversi['harga_konversi'];
+        $jumlah_barang = $data_konversi['jumlah_konversi'];
+        
+
+      }
+      else{
+        $harga = $data['harga'];
+        $jumlah_barang = $data['jumlah_retur'];
+      }
+
+        $query2 = "INSERT INTO detail_retur_pembelian (no_faktur_retur, no_faktur_pembelian, tanggal, kode_barang, nama_barang, jumlah_beli, jumlah_retur, harga, subtotal, potongan, tax, satuan, asal_satuan) 
+		VALUES ('$data[no_faktur_retur]','$data[no_faktur_pembelian]','$tanggal','$data[kode_barang]','$data[nama_barang]','$data[jumlah_beli]','$jumlah_barang','$harga','$data[subtotal]','$data[potongan]','$data[tax]', '$data[satuan]', '$data[satuan_beli]')";
+
+        if ($db->query($query2) === TRUE) {
+
+                
+            } else {
+            echo "Error: " . $query2 . "<br>" . $db->error;
+            }
     }
 
 

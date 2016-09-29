@@ -422,9 +422,9 @@ $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
 
       <td>". $data1['nama'] ."</td>
       <td>". rp($data1['harga']) ."</td>
-      <td><span id='text-subtotal-".$data1['id']."'>". $data1['subtotal'] ."</span></td>
-      <td><span id='text-potongan-".$data1['id']."'>". $data1['potongan'] ."</span></td>
-      <td><span id='text-tax-".$data1['id']."'>". $data1['tax'] ."</span></td>
+      <td><span id='text-subtotal-".$data1['id']."'>". rp($data1['subtotal']) ."</span></td>
+      <td><span id='text-potongan-".$data1['id']."'>". rp($data1['potongan']) ."</span></td>
+      <td><span id='text-tax-".$data1['id']."'>". rp($data1['tax']) ."</span></td>
 
      <td> <button class='btn btn-danger btn-hapus-tbs' data-id='". $data1['id'] ."' data-subtotal='".$data1['subtotal']."' data-barang='". $data1['nama_barang'] ."'><span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> 
                 
@@ -702,7 +702,7 @@ $(document).ready(function(){
     $.post("prosestbspembelian.php",{session_id:session_id,kode_barang:kode_barang,nama_barang:nama_barang,jumlah_barang:jumlah_barang,harga:harga,harga_baru:harga_baru,potongan:potongan,tax:tax,satuan:satuan},function(data){
       
 
-      $("#result").load("tabel_pembelian.php");
+      $("#result").html(data);
       $("#kode_barang").focus();
       $("#ppn").attr("disabled", true);
       $("#nama_barang").val('');

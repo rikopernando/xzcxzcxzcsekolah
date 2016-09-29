@@ -329,7 +329,7 @@ $data_tbs = mysqli_num_rows($tbs);
       <td>". rp($data1['jumlah_beli']) ." ".$data1['satuan_beli']."</td>
 
 
-      <td class='edit-jumlah' data-id='".$data1['id']."' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."'> <span id='text-jumlah-".$data1['id']."'> ".$data1['jumlah_retur']." </span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['jumlah_retur']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."' data-harga='".$data1['harga']."' onkeydown='return numbersonly(this, event);'> </td>
+      <td class='edit-jumlah' data-id='".$data1['id']."' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."'> <span id='text-jumlah-".$data1['id']."'> ".$data1['jumlah_retur']." </span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['jumlah_retur']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-faktur='".$data1['no_faktur_pembelian']."' data-kode='".$data1['kode_barang']."' data-harga='".$data1['harga']."' data-satuan='".$data1['satuan']."' onkeydown='return numbersonly(this, event);'> </td>
 
       <td>". $data1['satuan_retur']."</td>
       <td>". rp($data1['harga']) ."</td>
@@ -1335,7 +1335,7 @@ $(document).ready(function(){
 </script>
 
 
-<script type="text/javascript">
+                            <script type="text/javascript">
                                  
                                  $(".edit-jumlah").dblclick(function(){
 
@@ -1361,6 +1361,7 @@ $(document).ready(function(){
                                     var harga = $(this).attr("data-harga");
                                     var jumlah_retur = $("#text-jumlah-"+id+"").text();
                                     var no_faktur_retur = $("#nomorfaktur").val();
+                                    var satuan = $(this).attr("data-satuan");
 
                                     var subtotal_lama = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-subtotal-"+id+"").text()))));
                                    
@@ -1388,25 +1389,25 @@ $(document).ready(function(){
                                     var jumlah_tax = tax_tbs * subtotal / 100;
 
 
+                                     if (jumlah_baru == 0) {
 
+                                       alert ("Jumlah Retur Tidak Boleh 0!");
+                                       
+                                       $("#input-jumlah-"+id+"").val(jumlah_retur);
+                                       $("#text-jumlah-"+id+"").text(jumlah_retur);
+                                       $("#text-jumlah-"+id+"").show();
+                                       $("#input-jumlah-"+id+"").attr("type", "hidden");
+                                    }
 
+                                    else{
 
-                                    $.post("cek_total_tbs_edit_retur_pembelian.php",{kode_barang:kode_barang, jumlah_baru:jumlah_baru, no_faktur:no_faktur,no_faktur_retur:no_faktur_retur},function(data){
+                                   $.post("cek_total_tbs_edit_retur_pembelian.php",{kode_barang:kode_barang, jumlah_baru:jumlah_baru, no_faktur:no_faktur,no_faktur_retur:no_faktur_retur,satuan:satuan},function(data){
 
-                                       if (data == "ya") {
+                                       if (data < 0) {
 
                                        alert ("Jumlah Yang Di Masukan Melebihi Stok !");
                                         $("#input-jumlah-"+id+"").val(jumlah_retur);
-                                       $("#text-jumlah-"+id+"").show();
-                                        $("#input-jumlah-"+id+"").attr("type", "hidden");
-                                     }
-
-
-                                      else if (jumlah_baru == '0') {
-
-                                       alert ("Jumlah Yang Di Masukan Tidak Boleh (0/Kosong) ");
-                                        $("#input-jumlah-"+id+"").val(jumlah_retur);
-                                       $("#text-jumlah-"+id+"").show();
+                                        $("#text-jumlah-"+id+"").show();
                                         $("#input-jumlah-"+id+"").attr("type", "hidden");
                                      }
 
@@ -1429,8 +1430,14 @@ $(document).ready(function(){
 
                                    }
 
+
                                  });
 
+
+                                    }
+
+
+ 
 
        
                                     $("#kode_barang").focus();
