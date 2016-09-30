@@ -32,11 +32,11 @@
     $satu = 1;
     $x = $a - $potongan_tampil;
 
-        $hasil_tax = $satu + ($tax / 100); echo "<br>";
+        $hasil_tax = $satu + ($tax / 100); 
         
-        $hasil_tax2 = $x / $hasil_tax; echo "<br>";
+        $hasil_tax2 = $x / $hasil_tax; 
 
-        $tax_persen = $x - $hasil_tax2; echo "<br>";
+        $tax_persen = $x - $hasil_tax2; 
         
        $tax_persen = round($tax_persen);
 
@@ -53,31 +53,7 @@ else {
 
     }
 
-    // menampilkan data yang ada dari tabel tbs_pembelian berdasarkan kode barang
-    $cek = $db->query("SELECT * FROM tbs_pembelian WHERE session_id = '$session_id' AND kode_barang = '$kode_barang'");
-    // menyimpan data sementara berupa baris yang dijalankan dari $cek
-    $jumlah = mysqli_num_rows($cek);
-    // jika $jumlah >0 maka akan menjalakan perintah $query1 jika tidak maka akan menjalankan perintah $perintah
-    
-    if ($jumlah > 0)
-    {
-
-        $query1 = $db->prepare("UPDATE tbs_pembelian SET jumlah_barang = jumlah_barang + ?, subtotal = subtotal + ?, potongan = ?, tax = ? WHERE kode_barang = ? AND session_id = ?");
-
-        $query1->bind_param("iissss",
-            $jumlah_barang, $subtotal, $potongan_tampil, $tax_persen, $kode_barang, $session_id);
-
-            
-            $jumlah_barang = angkadoang($_POST['jumlah_barang']);
-            $kode_barang = stringdoang($_POST['kode_barang']);
-            $subtotal = $harga_beli * $jumlah_barang - $potongan_jadi + $tax_persen;
-
-        $query1->execute();
-
-
-    }
-    else
-    {
+  
         $perintah = $db->prepare("INSERT INTO tbs_pembelian (session_id,kode_barang,nama_barang,jumlah_barang,satuan,harga,subtotal,potongan,tax) VALUES (?,?,?,?,?,?,?,?,?)");
 
         $perintah->bind_param("sssisiisi",
@@ -102,10 +78,102 @@ else
    
 }
 
-    }
+    
 
-//Untuk Memutuskan Koneksi Ke Database
-mysqli_close($db);   
+
+    //untuk menampilkan semua data yang ada pada tabel tbs pembelian dalam DB
+    $perintah = $db->query("SELECT tp.id, tp.no_faktur, tp.session_id, tp.kode_barang, tp.nama_barang, tp.jumlah_barang, tp.satuan, tp.harga, tp.subtotal, tp.potongan, tp.tax, s.nama FROM tbs_pembelian tp INNER JOIN satuan s ON tp.satuan = s.id WHERE tp.session_id = '$session_id' ORDER BY id DESC LIMIT 1");
+
+    //menyimpan data sementara yang ada pada $perintah
+      while ($data1 = mysqli_fetch_array($perintah))
+      {
+
+        // menampilkan data
+      echo "<tr class='tr-id-".$data1['id']."'>
+      <td>". $data1['kode_barang'] ."</td>
+      <td>". $data1['nama_barang'] ."</td>
+
+      <td class='edit-jumlah' data-id='".$data1['id']."' data-faktur='".$data1['no_faktur']."' data-kode='".$data1['kode_barang']."'><span id='text-jumlah-".$data1['id']."'>". $data1['jumlah_barang'] ."</span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['jumlah_barang']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-kode='".$data1['kode_barang']."' data-harga='".$data1['harga']."' > </td>
+
+      <td>". $data1['nama'] ."</td>
+      <td>". rp($data1['harga']) ."</td>
+      <td><span id='text-subtotal-".$data1['id']."'>". rp($data1['subtotal']) ."</span></td>
+      <td><span id='text-potongan-".$data1['id']."'>". rp($data1['potongan']) ."</span></td>
+      <td><span id='text-tax-".$data1['id']."'>". rp($data1['tax']) ."</span></td>
+
+     <td> <button class='btn btn-danger btn-hapus-tbs' data-id='". $data1['id'] ."' data-subtotal='".$data1['subtotal']."' data-barang='". $data1['nama_barang'] ."'><span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> 
+                
+
+      </tr>";
+
+
+      }
+
+
+          //Untuk Memutuskan Koneksi Ke Database
+          mysqli_close($db); 
     ?>
+
+
+                                        
+                                       
+                                        
+                                        <script type="text/javascript">
+                                        
+                                        $(".edit-jumlah").dblclick(function(){
+                                        
+                                        var id = $(this).attr("data-id");
+                                        
+                                        
+                                        $("#text-jumlah-"+id+"").hide();                                        
+                                        $("#input-jumlah-"+id+"").attr("type", "text");
+                                        
+                                        
+                                        });
+                                        
+                                        
+                                        $(".input_jumlah").blur(function(){
+                                        
+                                        var id = $(this).attr("data-id");
+                                        var jumlah_baru = $(this).val();
+                                        var kode_barang = $(this).attr("data-kode");
+                                        var harga = $(this).attr("data-harga");
+                                        var jumlah_lama = $("#text-jumlah-"+id+"").text();
+                                        
+                                        var subtotal_lama = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-subtotal-"+id+"").text()))));
+                                        
+                                        var potongan = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-potongan-"+id+"").text()))));
+                                        
+                                        var tax = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#text-tax-"+id+"").text()))));
+                                        
+                                        var subtotal = parseInt(harga,10) * parseInt(jumlah_baru,10) - parseInt(potongan,10);
+                                        
+                                        var subtotal_penjualan = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#total_pembelian").val()))));
+                                        
+                                        subtotal_penjualan = parseInt(subtotal_penjualan,10) - parseInt(subtotal_lama,10) + parseInt(subtotal,10);
+                                        
+                                        var tax_tbs = tax / subtotal_lama * 100;
+                                        var jumlah_tax = tax_tbs * subtotal / 100;
+                                        
+                                        $.post("update_pesanan_barang_beli.php",{harga:harga,jumlah_lama:jumlah_lama,jumlah_tax:jumlah_tax,potongan:potongan,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang},function(info){
+                                        
+                                        
+                                        $("#text-jumlah-"+id+"").show();
+                                        $("#text-jumlah-"+id+"").text(jumlah_baru);
+                                        $("#text-subtotal-"+id+"").text(tandaPemisahTitik(subtotal));
+                                        $("#text-tax-"+id+"").text(jumlah_tax);
+                                        $("#input-jumlah-"+id+"").attr("type", "hidden"); 
+                                        $("#total_pembelian").val(tandaPemisahTitik(subtotal_penjualan));   
+                                        $("#total_pembelian1").val(tandaPemisahTitik(subtotal_penjualan));         
+                                        
+                                        });
+                                        
+                                        
+                                        $("#kode_barang").focus();
+                                        $("#pembayaran_pembelian").val("");
+                                        
+                                        });
+                                        
+                                        </script>
 
 

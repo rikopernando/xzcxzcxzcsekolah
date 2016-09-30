@@ -383,13 +383,12 @@ $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
         
 
   </form>
-       <br>
-       
+      
 
 
   <div class="table-responsive"><!--tag untuk membuat garis pada tabel--> 
        <span id="result">  
-  <table id="tableuser" class="table table-bordered">
+  <table id="table" class="table table-bordered">
     <thead>
       <th> Kode Barang </th>
       <th> Nama Barang </th>
@@ -403,7 +402,7 @@ $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
       
     </thead>
     
-    <tbody>
+    <tbody id="tbody">
     <?php
 
     //untuk menampilkan semua data yang ada pada tabel tbs pembelian dalam DB
@@ -576,7 +575,7 @@ $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
 <script>
 //untuk menampilkan data tabel
 $(document).ready(function(){
-    $('.table').DataTable();
+    $('#tableuser').DataTable();
 });
 
 </script>
@@ -702,7 +701,7 @@ $(document).ready(function(){
     $.post("prosestbspembelian.php",{session_id:session_id,kode_barang:kode_barang,nama_barang:nama_barang,jumlah_barang:jumlah_barang,harga:harga,harga_baru:harga_baru,potongan:potongan,tax:tax,satuan:satuan},function(data){
       
 
-      $("#result").html(data);
+      $("#tbody").prepend(data);
       $("#kode_barang").focus();
       $("#ppn").attr("disabled", true);
       $("#nama_barang").val('');
@@ -728,10 +727,6 @@ $(document).ready(function(){
 
      $("#cari_produk_pembelian").click(function() {
 
-     $.get('no_faktur_bl.php', function(data) {
-     /*optional stuff to do after getScript */ 
-     $("#nomorfaktur").val(data);
-     });
      //menyembunyikan notif berhasil
      $("#alert_berhasil").hide();
      /* Act on the event */
