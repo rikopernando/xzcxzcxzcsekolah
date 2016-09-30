@@ -7,7 +7,7 @@ $no_faktur = $_POST['no_faktur'];
 $kode_barang = $_POST['kode_barang'];
 
 
- $retur = $db->query ("SELECT no_faktur_penjualan, kode_barang, tanggal FROM detail_retur_penjualan WHERE no_faktur_retur = '$no_faktur' AND kode_barang = '$kode_barang'");
+ $retur = $db->query ("SELECT no_faktur, kode_barang, tanggal,jenis_transaksi FROM hpp_keluar WHERE no_faktur_hpp_masuk = '$no_faktur' AND kode_barang = '$kode_barang'");
 
 
  ?>
@@ -52,10 +52,10 @@ tr:nth-child(even){background-color: #f2f2f2}
           {
           //menampilkan data
           echo "<tr>
-          <td>". $data1['no_faktur_penjualan'] ."</td>
+          <td>". $data1['no_faktur'] ."</td>
           <td>". $data1['kode_barang'] ."</td>
           <td>". $data1['tanggal'] ."</td>
-          <td> Retur Penjualan </td>
+          <td> ". $data1['jenis_transaksi'] ." </td>
 
           </tr>";
 

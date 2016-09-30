@@ -92,25 +92,46 @@
                   {
                   
                   
+                  
+                  
                   echo "<tr class='tr-id-".$data1['id']."'>
                   
                   <td>". $data1['no_faktur'] ."</td>
                   <td>". $data1['kode_barang'] ."</td>
                   <td>". $data1['nama_barang'] ."</td>
                   <td>". $data1['satuan'] ."</td>
-                  <td><span id='text-stok-sekarang-".$data1['id']."'>". rp($data1['stok_sekarang']) ."</span></td>
+                  <td><span id='text-stok-sekarang-".$data1['id']."'>". rp($data1['stok_sekarang']) ."</span></td>";
 
-                  <td class='edit-jumlah' data-id='".$data1['id']."'><span id='text-jumlah-".$data1['id']."'>". $data1['fisik'] ."</span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['fisik']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-faktur='".$data1['no_faktur']."' data-harga='".$data1['harga']."' data-kode='".$data1['kode_barang']."' data-selisih-fisik='".$data1['selisih_fisik']."' data-stok-sekarang='".$data1['stok_sekarang']."'> </td>
+     $pilih = $db->query("SELECT no_faktur FROM hpp_masuk WHERE no_faktur = '$data1[no_faktur]' AND kode_barang = '$data1[kode_barang]' AND sisa != jumlah_kuantitas");
+        $row_alert = mysqli_num_rows($pilih);
 
-                  <td><span id='text-selisih-fisik-".$data1['id']."'>". rp($data1['selisih_fisik']) ."</span></td>
+                  if ($row_alert > 0){
+                  
+                  echo "<td class='btn-alert' data-kode-barang='". $data1['kode_barang'] ."' data-faktur='". $data1['no_faktur'] ."' >". $data1['fisik'] ."  </td>";
+                  }
+                  
+                  else{
+                  
+                  echo "<td class='edit-jumlah' data-id='".$data1['id']."'><span id='text-jumlah-".$data1['id']."'>". $data1['fisik'] ."</span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['fisik']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-faktur='".$data1['no_faktur']."' data-harga='".$data1['harga']."' data-kode='".$data1['kode_barang']."' data-selisih-fisik='".$data1['selisih_fisik']."' data-stok-sekarang='".$data1['stok_sekarang']."'> </td>";
+                      }
+
+
+                  echo "<td><span id='text-selisih-fisik-".$data1['id']."'>". rp($data1['selisih_fisik']) ."</span></td>
                   <td><span id='text-hpp-".$data1['id']."'>". rp($data1['hpp']) ."</span></td>
                   <td><span id='text-selisih-".$data1['id']."'>". rp($data1['selisih_harga']) ."</span></td>
-                  <td>". rp($data1['harga']) ."</td>
+                  <td>". rp($data1['harga']) ."</td>";
+
+             
                   
-                  <td> <button class='btn btn-danger btn-hapus' data-id='". $data1['id'] ."' data-kode-barang='". $data1['kode_barang'] ."' data-nama-barang='". $data1['nama_barang'] ."'> <span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> 
+                  if ($row_alert > 0) {
+                  
+                  echo "<td> <button class='btn btn-danger btn-alert' data-id='". $data1['id'] ."' data-kode-barang='". $data1['kode_barang'] ."' data-faktur='". $data1['no_faktur'] ."' data-nama-barang='". $data1['nama_barang'] ."'> <span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> ";
+                }
+                else{
+                  echo "<td> <button class='btn btn-danger btn-hapus' data-id='". $data1['id'] ."' data-kode-barang='". $data1['kode_barang'] ."' data-nama-barang='". $data1['nama_barang'] ."'> <span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td>";
+                }
 
-
-                  </tr>";
+                  echo "</tr>";
                   }
 
                   //Untuk Memutuskan Koneksi Ke Database
@@ -206,3 +227,24 @@
                                  });
 
                              </script>
+
+                             
+
+<script type="text/javascript">
+  
+    $(document).on('click', '.btn-alert', function (e) {
+    var no_faktur = $(this).attr("data-faktur");
+    var kode_barang = $(this).attr("data-kode-barang");
+
+    $.post('modal_alert_hapus_data_edit_stok_opname.php',{no_faktur:no_faktur,kode_barang:kode_barang},function(data){
+
+
+    $("#modal_alert").modal('show');
+    $("#modal-alert").html(data);
+
+    });
+
+    
+    });
+
+</script>

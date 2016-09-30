@@ -253,9 +253,10 @@ $(document).ready(function(){
 <script type="text/javascript">
   
     $(document).on('click', '.btn-alert', function (e) {
+    var no_faktur = $(this).attr("data-faktur");
     var kode_barang = $(this).attr("data-kode-barang");
 
-    $.post('modal_hapus_data_stok_awal.php',{kode_barang:kode_barang},function(data){
+    $.post('modal_hapus_data_stok_awal.php',{kode_barang:kode_barang, no_faktur:no_faktur},function(data){
 
 
     $("#modal_alert").modal('show');

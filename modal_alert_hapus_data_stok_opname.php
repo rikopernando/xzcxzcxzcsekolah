@@ -6,9 +6,9 @@ include 'db.php';
  $no_faktur = $_POST['no_faktur'];
 
 
- $hpp_masuk_stok_opname = $db->query("SELECT no_faktur_hpp_masuk, tanggal FROM hpp_keluar WHERE no_faktur = '$no_faktur' AND sisa_barang != jumlah_kuantitas");
- $stok_opname = $db->query("SELECT no_faktur, tanggal FROM hpp_keluar WHERE no_faktur = '$no_faktur' AND sisa_barang != jumlah_kuantitas");
+ $hpp_masuk_stok_opname = $db->query("SELECT no_faktur, tanggal, jenis_transaksi FROM hpp_keluar WHERE no_faktur_hpp_masuk = '$no_faktur'");
 
+ 
  ?>
 
 
@@ -54,9 +54,9 @@ tr:nth-child(even){background-color: #f2f2f2}
           {
           //menampilkan data
           echo "<tr>
-          <td>". $data2['no_faktur_hpp_masuk'] ."</td>
+          <td>". $data2['no_faktur'] ."</td>
           <td>". $data2['tanggal'] ."</td>
-          <td>Transaksi Penjualan </td>
+          <td>". $data2['jenis_transaksi'] ."</td>
 
           </tr>";
 

@@ -382,8 +382,8 @@ $ambil = mysqli_fetch_array($perintah);
       <td>". $data1['satuan_jual'] ."</td>";
 
 
-      $pilih = $db->query("SELECT no_faktur_hpp_masuk FROM hpp_keluar WHERE no_faktur_hpp_masuk = '$data1[no_faktur_penjualan]' AND kode_barang = '$data1[kode_barang]'");
-$row_retur = mysqli_num_rows($pilih);
+      $pilih = $db->query("SELECT * FROM hpp_keluar WHERE no_faktur_hpp_masuk = '$data1[no_faktur_retur]' AND kode_barang = '$data1[kode_barang]'");
+      $row_retur = mysqli_num_rows($pilih);
 
 
 
@@ -610,7 +610,7 @@ else{
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3 style="color:orange" class="modal-title"><span class="glyphicon glyphicon-info-sign">Info!</span></h3>
-        <h4>Maaf No Transaksi <strong><?php echo $no_faktur; ?></strong> tidak dapat dihapus atau di edit, karena telah terdapat Transaksi Penjualan. Dengan daftar sebagai berikut :</h4>
+        <h4>Maaf No Transaksi <strong><?php echo $no_faktur; ?></strong> tidak dapat dihapus atau di edit, karena telah terdapat Transaksi dibawah ini. Dengan daftar sebagai berikut :</h4>
       </div>
 
       <div class="modal-body">
@@ -622,7 +622,7 @@ else{
 
       <div class="modal-footer">
         <h6 style="text-align: left"><i> * jika ingin menghapus atau mengedit data,<br>
-        silahkan hapus terlebih dahulu Transaksi Penjualan</i></h6>
+        silahkan hapus terlebih dahulu Transaksi diatas</i></h6>
         <button type="button" class="btn btn-warning btn-close" data-dismiss="modal">Close</button>
       </div>
     </div>

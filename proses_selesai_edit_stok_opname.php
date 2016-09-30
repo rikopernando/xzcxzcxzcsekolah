@@ -33,7 +33,6 @@ $hapus_detail = $db->query("DELETE FROM detail_stok_opname WHERE no_faktur = '$n
         {
 
 
-            
             $query = $db->query("UPDATE barang SET stok_opname = '' WHERE kode_barang = '$data[kode_barang]'");
 
             $query4 = "INSERT INTO detail_stok_opname (no_faktur, tanggal, jam, kode_barang, nama_barang, awal, masuk, keluar, stok_sekarang, fisik, selisih_fisik, selisih_harga, harga, hpp) 

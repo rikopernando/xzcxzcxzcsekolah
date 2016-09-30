@@ -125,7 +125,7 @@ echo '<a href="form_retur_penjualan.php"  class="btn btn-info"><i class="fa fa-p
 
       <div class="modal-footer">
         <h6 style="text-align: left"><i> * jika ingin menghapus atau mengedit data, 
-        silahkan hapus terlebih dahulu<br> Transaksi Penjualan.</i></h6>
+        silahkan hapus terlebih dahulu<br> Transaksi yang diatas.</i></h6>
         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
       </div>
     </div>
