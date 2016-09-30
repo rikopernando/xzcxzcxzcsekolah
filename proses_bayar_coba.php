@@ -10,7 +10,6 @@ $jam_sekarang = date('H:i:sa');
 $tahun_terakhir = substr($tahun_sekarang, 2);
 $tanggal = stringdoang($_POST['tanggal']);
 $waktu = $tanggal." ".$jam_sekarang;
-
 $suplier = stringdoang($_POST['suplier']);
 
 $select_suplier = $db->query("SELECT id,nama FROM suplier WHERE id = '$suplier'");

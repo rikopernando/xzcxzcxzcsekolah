@@ -50,7 +50,7 @@ $tahun_terakhir = substr($tahun_sekarang, 2);
 //JURNAL TRANSAKSI
 $ambil_tbs = $db->query("SELECT SUM(selisih_harga) AS total FROM tbs_stok_opname WHERE no_faktur = '$no_faktur'");
 $data_tbs = mysqli_fetch_array($ambil_tbs);
-echo $total_tbs = $data_tbs['total'];
+$total_tbs = $data_tbs['total'];
 
 
 $sum_hpp_keluar = $db->query("SELECT SUM(total_nilai) AS total FROM hpp_keluar WHERE no_faktur = '$no_faktur'");
@@ -62,7 +62,6 @@ $select_setting_akun = $db->query("SELECT * FROM setting_akun");
 $ambil_setting = mysqli_fetch_array($select_setting_akun);
 
 if ($total_tbs < 0) {
-echo "1";
     $total0 = $total;
 
       //PERSEDIAAN    
@@ -73,7 +72,6 @@ echo "1";
 } 
 
 else {
-    echo "2";
       //PERSEDIAAN    
         $insert_jurnal = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat) VALUES ('".no_jurnal()."', '$tanggal_sekarang $jam_sekarang', 'Stok Opname -', '$ambil_setting[persediaan]', '$total', '0', 'Stok Opname', '$no_faktur','1', '$user')");
 
@@ -85,7 +83,6 @@ else {
 
 
 //</>END JURNAL TRANSAKSI
-
 
 
         $query5 = $db->query("DELETE FROM tbs_stok_opname");

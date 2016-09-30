@@ -494,32 +494,43 @@ $ambil = mysqli_fetch_array($perintah);
                               //perintah javascript yang diambil dari form proses_bayar_beli.php dengan id=form_beli
                               $("#pembayaran_item_masuk").click(function(){
                               
-                              var total = $("#total_item_masuk").val();
-                                
-                                    
-                              if (total == ""){
-                              alert("Tidak Ada Total Item Masuk");
-                              }
+                                    var total = $("#total_item_masuk").val();
+                                    var keterangan = $("#keterangan").val();
+                                    var no_faktur = $("#nomorfaktur").val();
+                                    var tanggal = $("#tanggal").val();
+
+                                    $("#keterangan").val('');
+                                    $("#total_item_masuk").val('');
+                              
+
+                                    if (total == ""){
+                                    alert("Tidak Ada Total Item Masuk");
+                                    }
+
                                    
-                              else
-                              {
+                                    else
+                                    {
 
                                       $("#pembayaran_item_masuk").hide();
                                       $("#batal").hide();
                                       $("#transaksi_baru").show();
+
+
                               
-                              $.post($("#form_item_masuk").attr("action"), $("#form_item_masuk :input").serializeArray(), function(info) {
+                              $.post("proses_bayar_edit_item_masuk.php",{no_faktur:no_faktur,total:total,keterangan:keterangan,tanggal:tanggal},function(info) {
+                              
+                                  
                               $("#result").html(info);
                               $("#alert_berhasil").show();
                               $("#total_item_masuk").val('');
-                              $("#pembayaran_item_masuk").val('');
+                              $("#keterangan").val('');
                               
                               
                               
                               
                               });
 
-                              }
+                                }
                               
                               // #result didapat dari tag span id=result
                               

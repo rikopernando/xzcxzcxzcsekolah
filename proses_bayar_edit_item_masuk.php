@@ -14,7 +14,9 @@ $jam_sekarang = date('H:i:sa');
 $tahun_terakhir = substr($tahun_sekarang, 2);
 $waktu = date('Y-m-d H:i:sa');
 
-$query3 = $db->query("DELETE  FROM detail_item_masuk WHERE no_faktur = '$no_faktur'");
+
+$delete_detail_item_masuk = $db->query("DELETE FROM detail_item_masuk WHERE no_faktur = '$no_faktur' ");
+
 
   // buat prepared statements
         $stmt = $db->prepare("UPDATE item_masuk SET no_faktur = ?, tanggal = ?, total = ?, tanggal_edit = ?, jam = ?, user_edit = ?, keterangan = ? WHERE no_faktur = ?");
@@ -25,36 +27,33 @@ $query3 = $db->query("DELETE  FROM detail_item_masuk WHERE no_faktur = '$no_fakt
 
   // siapkan "data" query
     $no_faktur = stringdoang($_POST['no_faktur']);
-    $tanggal = stringdoang($_POST['tanggal']);
     $total = angkadoang($_POST['total']);
     $user_edit = $_SESSION['user_name'];
     $keterangan = stringdoang($_POST['keterangan']);
+    $tanggal = stringdoang($_POST['tanggal']);
+    $tanggal_sekarang = date('Y-m-d');
+    $jam_sekarang = date('H:i:sa');
 
   // jalankan query
         $stmt->execute();
-
 
 
     $query = $db->query("SELECT * FROM tbs_item_masuk WHERE no_faktur = '$no_faktur'");
     while ($data = mysqli_fetch_array($query))
     {
 
-        $select_hpp_masuk = $db->query("SELECT * FROM hpp_masuk WHERE no_faktur = '$no_faktur' AND kode_barang = '$data[kode_barang]' AND sisa != jumlah_kuantitas ");
-        $row_hpp_masuk = mysqli_num_rows($select_hpp_masuk);
-
-        if ($row_hpp_masuk == 0) {
-
-            $delete_detail_item_masuk = $db->query("DELETE FROM detail_item_masuk WHERE no_faktur = '$no_faktur' AND kode_barang = '$data[kode_barang]'");
+             
+            $query2 = "INSERT INTO detail_item_masuk (no_faktur, tanggal, kode_barang, nama_barang, jumlah, satuan, harga, subtotal, jam, waktu) 
+            VALUES ('$data[no_faktur]','$tanggal','$data[kode_barang]','$data[nama_barang]','$data[jumlah]','$data[satuan]','$data[harga]','$data[subtotal]','$jam_sekarang','$waktu')";
+                if ($db->query($query2) === TRUE) 
+                {
+                       } 
+                       
+                       else {
+                       echo "Error: " . $query2 . "<br>" . $db->error;
+                       }
             
-            $query2 = $db->query("INSERT INTO detail_item_masuk (no_faktur, tanggal, kode_barang, nama_barang, jumlah, satuan, harga, subtotal, jam, waktu) 
-            VALUES ('$data[no_faktur]','$tanggal','$data[kode_barang]','$data[nama_barang]','$data[jumlah]','$data[satuan]','$data[harga]','$data[subtotal]','$jam_sekarang','$waktu')");
-
-        } 
-
-        else {
-            
-        }
-        
+   
         
     }
 
@@ -79,7 +78,6 @@ $ambil_setting = mysqli_fetch_array($select_setting_akun);
 
 
     $query3 = $db->query("DELETE  FROM tbs_item_masuk WHERE no_faktur = '$no_faktur'");
-    echo "Success";
 
 
 //Untuk Memutuskan Koneksi Ke Database

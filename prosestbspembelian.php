@@ -38,12 +38,10 @@
 
         $tax_persen = $x - $hasil_tax2; echo "<br>";
         
-       echo $tax_persen = round($tax_persen);
+       $tax_persen = round($tax_persen);
 
 
     if ( $harga != $harga_baru) {
-
-
 
       $query00 = $db->query("UPDATE barang SET harga_beli = '$harga_baru' WHERE kode_barang = '$kode_barang'");
       $harga_beli = $harga_baru;
