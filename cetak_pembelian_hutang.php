@@ -104,7 +104,8 @@ $data001 = mysqli_fetch_array($perintah);
         <tbody>
         <?php
 
-            $query5 = $db->query("SELECT * FROM detail_pembelian WHERE no_faktur = '$no_faktur' ");
+            
+$query5 = $db->query("SELECT s.nama,dp.id,dp.no_faktur,dp.kode_barang,dp.nama_barang,dp.jumlah_barang,dp.satuan,dp.harga,dp.subtotal FROM detail_pembelian dp INNER JOIN satuan s ON dp.satuan = s.id WHERE dp.no_faktur = '$no_faktur' ");
             //menyimpan data sementara yang ada pada $perintah
             while ($data5 = mysqli_fetch_array($query5))
             {
@@ -114,7 +115,7 @@ $data001 = mysqli_fetch_array($perintah);
                 <td>". $data5['kode_barang'] ."</td>
                 <td>". $data5['nama_barang'] ."</td>
                 <td>". $data5['jumlah_barang'] ."</td>
-                <td>". $data5['satuan'] ."</td>
+                <td>". $data5['nama'] ."</td>
                 <td>". rp($data5['harga']) ."</td>
                 <td>". rp($data5['subtotal']) ."</td>
             <tr>";

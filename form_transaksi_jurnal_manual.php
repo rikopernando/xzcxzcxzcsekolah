@@ -137,11 +137,11 @@ $no_jurnal = $nomor."/JR/".$data_bulan_terakhir."/".$tahun_terakhir;
 					 <?php 
 
     
-    $query = $db->query("SELECT * FROM daftar_akun ");
+    $query = $db->query("SELECT kode_daftar_akun, nama_daftar_akun FROM daftar_akun ");
     while($data = mysqli_fetch_array($query))
     {
     
-    echo "<option>".$data['kode_daftar_akun'] ."</option>";
+    echo "<option value='".$data['kode_daftar_akun']."'>".$data['kode_daftar_akun'] ." || ".$data['nama_daftar_akun']."</option>";
     }
     
     

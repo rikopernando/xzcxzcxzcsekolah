@@ -6,7 +6,6 @@
     include 'sanitasi.php';
     include 'db.php';
 
-
 $kategori = $_GET['kategori'];
 $tipe = $_GET['tipe'];
 
@@ -16,12 +15,12 @@ if ($tipe == 'barang') {
 
     if ($kategori == 'semua' AND $tipe = 'barang') {
     
-    $perintah = $db->query("SELECT * FROM barang WHERE berkaitan_dgn_stok = '$tipe' ORDER BY id DESC");
+    $perintah = $db->query("SELECT s.nama,b.nama_barang,b.kode_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.id,b.harga_jual3,b.berkaitan_dgn_stok,b.stok_barang,b.satuan,b.kategori,b.gudang FROM barang b INNER JOIN satuan s ON b.satuan = s.id WHERE b.berkaitan_dgn_stok = '$tipe' ORDER BY b.id DESC");
     
     }
 
     else{
-    $perintah = $db->query("SELECT * FROM barang WHERE kategori = '$kategori' berkaitan_dgn_stok = '$tipe' ORDER BY id DESC");
+    $perintah = $db->query("SELECT s.nama,b.nama_barang,b.kode_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.id,b.harga_jual3,b.berkaitan_dgn_stok,b.stok_barang,b.satuan,b.kategori,b.gudang FROM barang b INNER JOIN satuan s ON b.satuan = s.id WHERE b.kategori = '$kategori' AND b.berkaitan_dgn_stok = '$tipe' ORDER BY b.id DESC");
     }
 
     
@@ -32,12 +31,12 @@ else{
 
     if ($kategori == 'semua') {
     
-    $perintah = $db->query("SELECT * FROM barang ORDER BY id DESC");
+    $perintah = $db->query("SELECT s.nama,b.nama_barang,b.kode_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.id,b.harga_jual3,b.berkaitan_dgn_stok,b.stok_barang,b.satuan,b.kategori,b.gudang FROM barang b INNER JOIN satuan s ON b.satuan = s.id ORDER BY b.id DESC");
     
     }
     
     else{
-    $perintah = $db->query("SELECT * FROM barang WHERE kategori = '$kategori' ORDER BY id DESC");
+    $perintah = $db->query("SELECT s.nama,b.nama_barang,b.kode_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.id,b.harga_jual3,b.berkaitan_dgn_stok,b.stok_barang,b.satuan,b.kategori,b.gudang FROM barang b INNER JOIN satuan s ON b.satuan = s.id WHERE b.kategori = '$kategori' ORDER BY b.id DESC");
     }
 
 }
@@ -547,10 +546,10 @@ else {
 }
 
 // SATUAN
-			echo "<td class='edit-satuan' data-id='".$data1['id']."'><span id='text-satuan-".$data1['id']."'>". $data1['satuan'] ."</span> <select style='display:none' id='select-satuan-".$data1['id']."' value='".$data1['id']."' class='select-satuan' data-id='".$data1['id']."' autofocus=''>";
+			echo "<td class='edit-satuan' data-id='".$data1['id']."'><span id='text-satuan-".$data1['id']."'>". $data1['nama'] ."</span> <select style='display:none' id='select-satuan-".$data1['id']."' value='".$data1['id']."' class='select-satuan' data-id='".$data1['id']."' autofocus=''>";
 
 
-echo '<option value="'. $data1['satuan'] .'"> '. $data1['satuan'] .'</option>';
+echo '<option value="'. $data1['satuan'] .'"> '. $data1['nama'] .'</option>';
 
      $query2 = $db->query("SELECT * FROM satuan");
 

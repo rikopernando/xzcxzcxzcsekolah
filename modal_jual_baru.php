@@ -31,7 +31,7 @@
 
 
         
-        $perintah = $db->query("SELECT * FROM barang ");
+        $perintah = $db->query("SELECT s.nama,b.kode_barang,b.nama_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.harga_jual3,b.kategori,b.status,b.suplier,b.limit_stok,b.satuan,b.id,b.berkaitan_dgn_stok FROM barang b INNER JOIN satuan s ON b.satuan = s.id ");
         
         //menyimpan data sementara yang ada pada $perintah
         while ($data1 = mysqli_fetch_array($perintah))
@@ -99,7 +99,7 @@
             <td>". rp($data1['harga_jual2']) ."</td>
             <td>". rp($data1['harga_jual3']) ."</td>
             <td>". $stok_barang ."</td>
-            <td>". $data1['satuan'] ."</td>
+            <td>". $data1['nama'] ."</td>
             <td>". $data1['kategori'] ."</td>
             <td>". $data1['status'] ."</td>
             <td>". $data1['suplier'] ."</td>

@@ -449,13 +449,13 @@ $session_id = session_id();
 
 
           <label> Diskon ( Rp )</label><br>
-          <input type="text" name="potongan" style="height:25px;font-size:15px" id="potongan_penjualan" value="<?php echo intval($data_diskon['diskon_nominal']); ?>" class="form-control" placeholder="" autocomplete="off"  onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+          <input type="text" name="potongan" style="height:25px;font-size:15px" id="potongan_penjualan" value="<?php echo $data_diskon['diskon_nominal']; ?>" class="form-control" placeholder="" autocomplete="off"  onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
             
           </div>
 
           <div class="col-sm-6">
             <label> Diskon ( % )</label><br>
-          <input type="text" name="potongan_persen" style="height:25px;font-size:15px" id="potongan_persen" value="<?php echo intval($data_diskon['diskon_persen']); ?>" class="form-control" placeholder="" autocomplete="off" >
+          <input type="text" name="potongan_persen" style="height:25px;font-size:15px" id="potongan_persen" value="<?php echo $data_diskon['diskon_persen']; ?>" class="form-control" placeholder="" autocomplete="off" >
           </div>
 
           </div>
@@ -948,8 +948,7 @@ $("#submit_produk").mouseleave(function(){
         },
         function(data){
         $("#total2").val(data);
-
-        $("#total").val(data);
+        $("#total1").val(data);
         });
 
 
@@ -969,10 +968,7 @@ $("#submit_produk").mouseleave(function(){
       $("#cari_produk_penjualan").click(function() {
 
       
-      $.get('no_faktur_jl.php', function(data) {
-      /*optional stuff to do after getScript */ 
-      $("#nomor_faktur_penjualan").val(data);
-      });
+ 
       //menyembunyikan notif berhasil
       $("#alert_berhasil").hide();
       
@@ -1123,7 +1119,6 @@ alert("Silakan Bayar Piutang");
      $("#cetak_tunai").attr('href', 'cetak_penjualan_tunai.php?no_faktur='+no_faktur+'');
      $("#cetak_tunai_besar").attr('href', 'cetak_penjualan_tunai_besar.php?no_faktur='+no_faktur+'');
      $("#alert_berhasil").show();
-     $("#total_penjualan").val('');
      $("#pembayaran_penjualan").val('');
      $("#sisa_pembayaran_penjualan").val('');
      $("#kredit").val('');
@@ -1237,7 +1232,6 @@ alert("Silakan Bayar Piutang");
             $("#cetak_piutang").attr('href', 'cetak_penjualan_piutang.php?no_faktur='+no_faktur+'');
             $("#table-baru").html(info);
             $("#alert_berhasil").show();
-            $("#total_penjualan").val('');
             $("#pembayaran_penjualan").val('');
             $("#sisa_pembayaran_penjualan").val('');
             $("#kredit").val('');
@@ -1316,99 +1310,7 @@ $("#cari_produk_penjualan").click(function(){
 });
 </script>
 
-<!--menampilkan perintah javascript-->
-<script type="text/javascript">
 
-        $(document).ready(function(){
-        
-        $("#kode_barang").focus(function(){
-
-        var potongan_persen = $("#potongan_persen").val();
-        var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah( $("#total2").val() ))));
-        var potongan_penjualan = ((total * potongan_persen) / 100);
-        var sisa_potongan = total - potongan_penjualan;
-        
-        if (potongan_persen > 100) {
-          alert ("Potongan %, Tidak Boleh Lebih Dari 100%");
-        }
-
-        
-        
-        $("#total1").val(tandaPemisahTitik(parseInt(sisa_potongan)));
-        $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(potongan_penjualan)));
-
-        var potongan_penjualan =  bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah( $("#potongan_penjualan").val() ))));
-        var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#total2").val()))));
-        
-
-        var potongan_persen = ((potongan_penjualan / total) * 100);
-        var sisa_potongan = total - potongan_penjualan;
-        
-
-        
-        $("#total1").val(tandaPemisahTitik(parseInt(sisa_potongan)));
-        $("#potongan_persen").val(parseInt(potongan_persen));
-        
-        var potongan = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#potongan_penjualan").val() ))));
-        var potongan_persen = $("#potongan_persen").val();
-        var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#total2").val() ))));
-       
-              var cara_bayar = $("#carabayar1").val();
-              var tax = $("#tax").val();
-              var t_total = total - potongan;
-
-              if (tax == "") {
-                tax = 0;
-              }
-              else if (cara_bayar == "") {
-                alert ("Kolom Cara Bayar Masih Kosong");
-                 $("#tax").val('');
-                 $("#potongan_penjualan").val('');
-                 $("#potongan_persen").val('');
-              }
-              
-              var t_tax = ((parseInt(bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah(t_total,10))))) * parseInt(bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah(tax,10)))))) / 100);
-
-              var total_akhir = parseInt(bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah(t_total,10))))) + Math.round(parseInt(t_tax,10));
-              
-              
-              $("#total1").val(tandaPemisahTitik(total_akhir));
-
-              if (tax > 100) {
-                alert ('Jumlah Tax Tidak Boleh Lebih Dari 100%');
-                 $("#tax").val('');
-
-              }
-        
-
-        $("#tax_rp").val(parseInt(t_tax));
-      
-
-
-        });
-        });
-        
-        </script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-
-        var potongan_persen = $("#potongan_persen").val();
-        var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah( $("#total2").val() ))));
-        var potongan_penjualan = ((total * potongan_persen) / 100);
-        var sisa_potongan = total - potongan_penjualan;
-        
-        if (potongan_persen > 100) {
-          alert ("Potongan %, Tidak Boleh Lebih Dari 100%");
-        }
-
-        
-        
-        $("#total1").val(tandaPemisahTitik(parseInt(sisa_potongan)));
-        $("#potongan_penjualan").val(tandaPemisahTitik(parseInt(potongan_penjualan)));
-
-  });
-</script>
 
 <script type="text/javascript">
         $(document).ready(function(){
@@ -1636,7 +1538,7 @@ if (stok < 0 )
         function(data){
         $("#total2").val(data);
 
-        $("#total").val(data);
+        $("#total1").val(data);
         });
                 
         
@@ -2000,7 +1902,7 @@ function myFunction(event) {
         function(data){
         $("#total2").val(data);
 
-        $("#total").val(data);
+        $("#total1").val(data);
         });
 
       });

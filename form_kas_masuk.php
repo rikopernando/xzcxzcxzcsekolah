@@ -252,7 +252,7 @@
 
       
   <!--membuat tombol submit bayar & Hutang-->
-      <button type="submit" id="submit_kas_masuk" class="btn btn-info"> <i class='fa fa-send'></i> Submit </a> </button>
+     
 
       <a class="btn btn-info" href="form_kas_masuk.php" id="transaksi_baru" style="display: none"> <i class="fa fa-refresh"></i> Transaksi Baru</a>
      
@@ -321,9 +321,12 @@ mysqli_close($db);
   </div>
         </span>
 
-
+<br>
+ <button type="submit" id="submit_kas_masuk" class="btn btn-info"> <i class='fa fa-send'></i> Submit </a> </button>
 
 </div> <!-- tag penutup div container -->
+
+
 
 
 <script>
