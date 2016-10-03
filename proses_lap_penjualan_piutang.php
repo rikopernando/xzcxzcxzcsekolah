@@ -9,7 +9,10 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM penjualan WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal' AND kredit != 0 ");
+$perintah = $db->query("SELECT pel.nama_pelanggan,dp.tanggal,dp.no_faktur,dp.kode_pelanggan,dp.total,dp.jam,dp.user,dp.status,dp.potongan,dp.tax,dp.tunai,dp.kredit FROM penjualan dp INNER JOIN pelanggan pel ON dp.kode_pelanggan = pel.kode_pelanggan WHERE dp.tanggal >= '$dari_tanggal' AND dp.tanggal <= '$sampai_tanggal' AND dp.kredit != 0 ");
+
+
+
 
 $query02 = $db->query("SELECT SUM(kredit) AS total_piutang FROM penjualan WHERE  kredit != 0 AND tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
 $cek02 = mysqli_fetch_array($query02);
@@ -91,7 +94,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 			echo "<tr>
 			<td>". $data1['tanggal'] ."</td>
 			<td>". $data1['no_faktur'] ."</td>
-			<td>". $data1['kode_pelanggan'] ."</td>
+			<td>". $data1['kode_pelanggan'] ." ". $data1['nama_pelanggan'] ."</td>
 			<td>". rp($data1['total']) ."</td>
 			<td>". $data1['jam'] ."</td>
 			<td>". $data1['user'] ."</td>

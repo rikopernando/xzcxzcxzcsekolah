@@ -7,7 +7,7 @@ include 'db.php';
 
 $no_faktur_pembayaran = $_GET['no_faktur_pembayaran'];
 
-    $query0 = $db->query("SELECT * FROM pembayaran_piutang WHERE no_faktur_pembayaran = '$no_faktur_pembayaran' ");
+    $query0 = $db->query("SELECT pel.nama_pelanggan, da.nama_daftar_akun,pp.no_faktur_pembayaran ,pp.dari_kas ,pp.tanggal ,pp.nama_suplier ,pp.keterangan ,pp.total FROM pembayaran_piutang pp INNER JOIN daftar_akun da ON pp.dari_kas = da.kode_daftar_akun INNER JOIN pelanggan pel ON pp.nama_suplier = pel.kode_pelanggan WHERE pp.no_faktur_pembayaran = '$no_faktur_pembayaran' ");
     $data0 = mysqli_fetch_array($query0);
 
     $query1 = $db->query("SELECT * FROM perusahaan ");
@@ -43,9 +43,9 @@ $no_faktur_pembayaran = $_GET['no_faktur_pembayaran'];
 <table>
   <tbody>
       <tr><td width="50%">No Faktur </td><td>:&nbsp;</td><td><?php echo $data0['no_faktur_pembayaran']; ?></td></tr>
-      <tr><td width="50%">Cara Bayar</td> <td>:&nbsp;</td><td><?php echo $data0['dari_kas']; ?></td></tr>
+      <tr><td width="50%">Cara Bayar</td> <td>:&nbsp;</td><td><?php echo $data0['nama_daftar_akun']; ?></td></tr>
       <tr><td width="50%">Tanggal</td> <td>:&nbsp;</td><td><?php echo tanggal($data0['tanggal']);?></td></tr>
-      <tr><td width="50%">Suplier</td><td>:&nbsp;</td><td><?php echo $data0['nama_suplier']; ?></td></tr>
+      <tr><td width="50%">Pelanggan</td><td>:&nbsp;</td><td><?php echo $data0['nama_pelanggan']; ?></td></tr>
       
   </tbody>
 </table>

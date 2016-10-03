@@ -9,7 +9,7 @@ include 'db.php';
 $no_faktur_retur = $_GET['no_faktur_retur'];
 $suplier = $_GET['nama_suplier'];
 
-    $query0 = $db->query("SELECT * FROM retur_pembelian WHERE no_faktur_retur = '$no_faktur_retur' ");
+    $query0 = $db->query("SELECT rp.no_faktur_retur ,rp.tanggal ,rp.total ,rp.tax ,rp.potongan ,rp.total ,rp.tunai ,rp.sisa,sp.nama FROM retur_pembelian rp INNER JOIN suplier sp ON rp.nama_suplier = sp.id WHERE rp.no_faktur_retur = '$no_faktur_retur'");
     $data0 = mysqli_fetch_array($query0);
 
     $query1 = $db->query("SELECT * FROM perusahaan ");
@@ -91,20 +91,17 @@ $suplier = $_GET['nama_suplier'];
         <tbody>
         <?php
 
-            $query5 = $db->query("SELECT * FROM detail_retur_pembelian WHERE no_faktur_retur = '$no_faktur_retur' ");
+            $query5 = $db->query("SELECT s.nama ,drp.kode_barang ,drp.nama_barang ,drp.jumlah_retur ,drp.harga ,drp.potongan ,drp.subtotal ,drp.tax FROM detail_retur_pembelian drp INNER JOIN satuan s ON drp.satuan = s.id WHERE drp.no_faktur_retur = '$no_faktur_retur' ");
             //menyimpan data sementara yang ada pada $perintah
             while ($data5 = mysqli_fetch_array($query5))
             {
-
-              $query01 = $db->query("SELECT * FROM barang WHERE kode_barang = '$data5[kode_barang]'");
-              $cek = mysqli_fetch_array($query01);
 
               
             echo "<tr>
                 <td>". $data5['kode_barang'] ."</td>
                 <td>". $data5['nama_barang'] ."</td>
                 <td>". $data5['jumlah_retur'] ."</td>
-                <td>". $cek['satuan'] ."</td>
+                <td>". $data5['nama'] ."</td>
                 <td>". rp($data5['harga']) ."</td>
                 <td>". rp($data5['potongan']) ."</td>
                 <td>". rp($data0['total']) ."</td>

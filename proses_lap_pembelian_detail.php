@@ -9,7 +9,7 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM detail_pembelian WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
+$perintah = $db->query("SELECT s.nama,dp.id,dp.no_faktur,dp.kode_barang,dp.nama_barang,dp.jumlah_barang,dp.satuan,dp.harga,dp.subtotal,dp.potongan,dp.tax,dp.sisa FROM detail_pembelian dp INNER JOIN satuan s ON dp.satuan = s.id WHERE dp.tanggal >= '$dari_tanggal' AND dp.tanggal <= '$sampai_tanggal'");
 
 
 $query15 = $db->query("SELECT SUM(subtotal) AS total_subtotal FROM 
@@ -58,7 +58,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 					<td>". $data1['kode_barang'] ."</td>
 					<td>". $data1['nama_barang'] ."</td>
 					<td>". $data1['jumlah_barang'] ."</td>
-					<td>". $data1['satuan'] ."</td>
+					<td>". $data1['nama'] ."</td>
 					<td>". rp($data1['harga']) ."</td>
 					<td>". rp($data1['subtotal']) ."</td>
 					<td>". rp($data1['potongan']) ."</td>

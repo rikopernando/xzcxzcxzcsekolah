@@ -145,9 +145,9 @@ include 'db.php';
             {
 
               $no_urut ++;
-              $kode = $db->query("SELECT satuan FROM barang WHERE kode_barang = '$data5[kode_barang]' ");
+              $kode = $db->query("SELECT s.nama AS nama_satuan FROM barang b INNER JOIN satuan s ON b.satuan = s.id WHERE b.kode_barang = '$data5[kode_barang]'");
               $satuan_b = mysqli_fetch_array($kode);
-              $satuan = $satuan_b['satuan'];
+              $satuan = $satuan_b['nama_satuan'];
 
             echo "<tr>
             <td class='table1' align='center'>".$no_urut."</td>

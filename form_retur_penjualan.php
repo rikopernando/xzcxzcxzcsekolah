@@ -613,11 +613,11 @@ if (jumlah_retur == ""){
 
     $("#total_retur_pembelian").val(tandaPemisahTitik(total_akhir));
     $("#total_retur_pembelian1").val(tandaPemisahTitik(total_akhir));
+     $("#kode_barang").focus();
 
     $.post("proses_tbs_retur_penjualan.php",{session_id:session_id,no_faktur_penjualan:no_faktur,kode_barang:kode_barang,jumlah_retur:jumlah_retur,satuan_produk:satuan_produk,nama_barang:nama_barang,harga:harga,potongan1:potongan1,tax1:tax1,satuan_jual:satuan_jual},function(info) {
 
 
-     $("#kode_barang").focus();
      $("#ppn").attr("disabled", true);
      $("#tbody").prepend(info);
      $("#kode_barang").val('');
@@ -707,13 +707,14 @@ $("#cari_produk_pembelian").click(function(){
   var session_id = $("#session_id").val();
   var total1 = $("#total_retur_pembelian1").val();
   var ppn_input = $("#ppn_input").val();
+  var jumlah_kas = $("#jumlah1").val();
+  var sisa =  jumlah_kas -  pembayaran_pembelian;
 
- if (sisa < 0 )
- {
+      if (sisa < 0) 
 
-  alert("Jumlah Pembayaran Tidak Mencukupi");
-
- }
+      {
+        alert("Jumlah Kas Tidak Mencukupi Atau Kolom Cara Bayar Masih Kosong");
+      }
 
   else if (total == "")
  {

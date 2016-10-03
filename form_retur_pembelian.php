@@ -705,12 +705,12 @@ $(document).ready(function(){
 
     $("#total_retur_pembelian").val(tandaPemisahTitik(total_akhir));
     $("#total_retur_pembelian1").val(tandaPemisahTitik(total_akhir));
+      $("#kode_barang").focus();
 
     $.post("proses_tbs_retur_pembelian.php",{kode_barang:kode_barang,jumlah_retur:jumlah_retur,satuan_produk:satuan_produk,nama_barang:nama_barang,no_faktur_pembelian:no_faktur2,harga:harga,potongan1:potongan1,tax1:tax1,satuan_beli:satuan_beli},function(info) {
 
 
       $("#tbody").prepend(info);
-      $("#kode_barang").focus();
       $("#ppn").attr("disabled", true);
       $("#kode_barang").val('');
       $("#nama_barang").val('');

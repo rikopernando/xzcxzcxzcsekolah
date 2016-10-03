@@ -8,7 +8,7 @@ include 'sanitasi.php';
 include 'db.php';
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM pembayaran_piutang");
+$perintah = $db->query("SELECT p.nama_pelanggan,da.nama_daftar_akun,pp.no_faktur_pembayaran,pp.tanggal,pp.nama_suplier,pp.dari_kas,pp.total FROM pembayaran_piutang pp INNER JOIN daftar_akun da ON pp.dari_kas = da.kode_daftar_akun INNER JOIN pelanggan p ON pp.nama_suplier = p.kode_pelanggan ");
 
  ?>
 
@@ -56,8 +56,8 @@ $perintah = $db->query("SELECT * FROM pembayaran_piutang");
 			echo "<tr>
 			<td>". $data1['no_faktur_pembayaran'] ."</td>
 			<td>". $data1['tanggal'] ."</td>
-			<td>". $data1['nama_suplier'] ."</td>
-			<td>". $data1['dari_kas'] ."</td>
+			<td>". $data1['nama_suplier'] ." ". $data1['nama_pelanggan'] ."</td>
+			<td>". $data1['nama_daftar_akun'] ."</td>
 			<td>". $cek['potongan'] ."</td>
 			<td>". rp($data1['total']) ."</td>
 

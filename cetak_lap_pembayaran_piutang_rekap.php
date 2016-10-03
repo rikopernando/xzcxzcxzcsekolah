@@ -11,7 +11,7 @@ $sampai_tanggal = stringdoang($_GET['sampai_tanggal']);
     $data1 = mysqli_fetch_array($query1);
 
 //menampilkan seluruh data yang ada pada tabel pembayaran_piutang
-$perintah = $db->query("SELECT * FROM pembayaran_piutang WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
+$perintah = $db->query("SELECT p.nama_pelanggan,pp.nama_suplier,pp.no_faktur_pembayaran,pp.tanggal,pp.dari_kas,pp.total FROM pembayaran_piutang pp LEFT JOIN pelanggan p ON pp.nama_suplier = p.kode_pelanggan WHERE pp.tanggal >= '$dari_tanggal' AND pp.tanggal <= '$sampai_tanggal'");
 
 
 //menampilkan seluruh data yang ada pada tabel pembayaran_piutang
@@ -27,8 +27,6 @@ $total_potongan = $cek01['total_potongan'];
 $query02 = $db->query("SELECT SUM(total) AS total_akhir FROM pembayaran_piutang WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
 $cek02 = mysqli_fetch_array($query02);
 $total_akhir = $cek02['total_akhir'];
-
-
 
 
 
@@ -74,7 +72,7 @@ $total_akhir = $cek02['total_akhir'];
             <thead>
       <th> Nomor Faktur </th>
       <th> Tanggal </th>
-      <th> Nama Suplier </th>
+      <th> Kode Pelanggan </th>
       <th> Cara Bayar </th>
       <th> Potongan </th>
       <th> Jumlah Bayar </th>
@@ -84,8 +82,8 @@ $total_akhir = $cek02['total_akhir'];
             <tbody>
             <?php
 
-                  $perintah009 = $db->query("SELECT * FROM pembayaran_piutang WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
-                  while ($data11 = mysqli_fetch_array($perintah009))
+               
+                  while ($data11 = mysqli_fetch_array($perintah))
 
                   {
 
@@ -95,7 +93,7 @@ $total_akhir = $cek02['total_akhir'];
                   echo "<tr>
                   <td>". $data11['no_faktur_pembayaran'] ."</td>
                   <td>". $data11['tanggal'] ."</td>
-                  <td>". $data11['nama_suplier'] ."</td>
+                  <td>". $data11['nama_suplier'] ." ". $data11['nama_pelanggan'] ."</td>
                   <td>". $data11['dari_kas'] ."</td>
                   <td>". rp($data0['potongan']) ."</td>
                   <td>". rp($data11['total']) ."</td>

@@ -28,9 +28,7 @@
         
         <tbody> <!-- tag pembuka tbody, yang digunakan untuk menampilkan data yang ada di database --> 
 <?php
-
-
-        
+ 
         $perintah = $db->query("SELECT s.nama,b.kode_barang,b.nama_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.harga_jual3,b.kategori,b.status,b.suplier,b.limit_stok,b.satuan,b.id,b.berkaitan_dgn_stok FROM barang b INNER JOIN satuan s ON b.satuan = s.id ");
         
         //menyimpan data sementara yang ada pada $perintah

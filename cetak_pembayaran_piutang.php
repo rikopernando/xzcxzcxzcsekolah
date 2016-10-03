@@ -8,7 +8,7 @@ include 'db.php';
 
 $no_faktur_pembayaran = $_SESSION['no_faktur_pembayaran'];
 
-    $query0 = $db->query("SELECT * FROM pembayaran_piutang WHERE no_faktur_pembayaran = '$no_faktur_pembayaran' ");
+    $query0 = $db->query("SELECT p.id,p.no_faktur_pembayaran,p.keterangan,p.total,p.nama_suplier,p.tanggal,p.tanggal_edit,p.jam,p.user_buat,p.user_edit,p.dari_kas,pel.nama_pelanggan,da.nama_daftar_akun FROM pembayaran_piutang p INNER JOIN pelanggan pel ON p.nama_suplier = pel.kode_pelanggan INNER JOIN daftar_akun da ON p.dari_kas = da.kode_daftar_akun  WHERE p.no_faktur_pembayaran = '$no_faktur_pembayaran' ");
     $data0 = mysqli_fetch_array($query0);
 
     $query1 = $db->query("SELECT * FROM perusahaan ");
@@ -45,9 +45,9 @@ $no_faktur_pembayaran = $_SESSION['no_faktur_pembayaran'];
     <table>
       <tbody>
        <tr><td>No Faktur <td>:&nbsp;</td><td><?php echo $data0['no_faktur_pembayaran']; ?></td></td></tr>
-       <tr><td> Cara Bayar <td>:&nbsp;</td><td><?php echo $data0['dari_kas']; ?></td></td></tr>
+       <tr><td> Cara Bayar <td>:&nbsp;</td><td><?php echo $data0['nama_daftar_akun']; ?></td></td></tr>
        <tr><td> Tanggal <td>:&nbsp;</td><td><?php echo tanggal($data0['tanggal']);?></td></td></tr>
-       <tr><td> Suplier <td>:&nbsp;</td><td><?php echo $data0['nama_suplier']; ?></td></td></tr>
+       <tr><td> Pelanggan <td>:&nbsp;</td><td><?php echo $data0['nama_pelanggan']; ?></td></td></tr>
        
       </tbody>
     </table>            
@@ -91,9 +91,9 @@ $no_faktur_pembayaran = $_SESSION['no_faktur_pembayaran'];
             echo "<tr>
                 <td>". $data5['no_faktur_pembayaran'] ."</td>
                 <td>". $data5['tanggal_jt'] ."</td>
-                <td>". $data5['kredit'] ."</td>
-                <td>". $data5['potongan'] ."</td>
-                <td>". $data5['jumlah_bayar'] ."</td>
+                <td>". rp($data5['kredit']) ."</td>
+                <td>". rp($data5['potongan']) ."</td>
+                <td>". rp($data5['jumlah_bayar']) ."</td>
             <tr>";
 
             }

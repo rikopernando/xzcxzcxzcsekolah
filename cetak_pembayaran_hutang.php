@@ -8,12 +8,9 @@ include 'db.php';
 
 $no_faktur_pembayaran = $_SESSION['no_faktur_pembayaran'];
 
-$perintah = $db->query("SELECT p.id,p.no_faktur_pembayaran,p.keterangan,p.total,p.nama_suplier,p.tanggal,p.tanggal_edit,p.jam,p.user_buat,p.user_edit,p.dari_kas,s.nama,da.nama_daftar_akun FROM pembayaran_hutang p INNER JOIN suplier s ON p.nama_suplier = s.id INNER JOIN daftar_akun da ON p.dari_kas = da.kode_daftar_akun ORDER BY p.id DESC");
+$perintah = $db->query("SELECT p.id,p.no_faktur_pembayaran,p.keterangan,p.total,p.nama_suplier,p.tanggal,p.tanggal_edit,p.jam,p.user_buat,p.user_edit,p.dari_kas,s.nama,da.nama_daftar_akun FROM pembayaran_hutang p INNER JOIN suplier s ON p.nama_suplier = s.id INNER JOIN daftar_akun da ON p.dari_kas = da.kode_daftar_akun WHERE p.no_faktur_pembayaran = '$no_faktur_pembayaran' ORDER BY p.id DESC");
 
 $data001 = mysqli_fetch_array($perintah);
-
-    $query0 = $db->query("SELECT * FROM pembayaran_hutang WHERE no_faktur_pembayaran = '$no_faktur_pembayaran' ");
-    $data0 = mysqli_fetch_array($query0);
 
     $query1 = $db->query("SELECT * FROM perusahaan ");
     $data1 = mysqli_fetch_array($query1);
@@ -49,9 +46,9 @@ $data001 = mysqli_fetch_array($perintah);
 <table>
   <tbody>
 
-       <tr><td width="50%"> No Faktur</td> <td> :&nbsp;&nbsp;</td> <td><?php echo $data0['no_faktur_pembayaran']; ?> </td></tr>  
+       <tr><td width="50%"> No Faktur</td> <td> :&nbsp;&nbsp;</td> <td><?php echo $data001['no_faktur_pembayaran']; ?> </td></tr>  
        <tr><td width="50%"> Cara Bayar</td> <td> :&nbsp;&nbsp;</td> <td><?php echo $data001['nama_daftar_akun']; ?> </td></tr> 
-        <tr><td width="50%"> Tanggal</td> <td> :&nbsp;&nbsp;</td> <td><?php echo tanggal($data0['tanggal']);?> </td></tr>  
+        <tr><td width="50%"> Tanggal</td> <td> :&nbsp;&nbsp;</td> <td><?php echo tanggal($data001['tanggal']);?> </td></tr>  
         <tr><td width="50%"> Suplier</td> <td> :&nbsp;&nbsp;</td> <td><?php echo $data001['nama']; ?> </td></tr> 
   </tbody>
 </table>         
@@ -115,14 +112,14 @@ mysqli_close($db);
     
  <div class="row">
 
-    <div class="col-sm-6">Keterangan : <?php echo $data0['keterangan']; ?></div>
+    <div class="col-sm-6">Keterangan : <?php echo $data001['keterangan']; ?></div>
     
     <div class="col-sm-6">
 
     <table>
     <tbody>
     <tr><td> Subtotal </td> <td> :&nbsp;</td><td><?php echo rp($j_total); ?></td></tr>
-    <tr><td><i> <b> Terbilang </b></td> <td> &nbsp;&nbsp;:&nbsp;</td><td><?php echo kekata($data0['total']); ?></i></td></tr>
+    <tr><td><i> <b> Terbilang </b></td> <td> &nbsp;&nbsp;:&nbsp;</td><td><?php echo kekata($data001['total']); ?></i></td></tr>
     
     </tbody>
     </table>

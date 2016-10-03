@@ -25,7 +25,7 @@ include 'db.php';
 
  <div class="container">
 
-<h3> LAPORAN PEMBAYRAN HUTANG </h3><hr>
+<h3> LAPORAN PEMBAYARAN HUTANG </h3><hr>
 
 <form class="form-inline" role="form">
 				
@@ -36,7 +36,7 @@ include 'db.php';
 
                   <div class="form-group"> 
 
-                  <input type="text" name="sampai_tanggal" id="sampai_tanggal" class="form-control" placeholder="Sampai Tanggal" value="<?php echo date("Y/m/d"); ?>" required="">
+                  <input type="text" name="sampai_tanggal" id="sampai_tanggal" class="form-control" placeholder="Sampai Tanggal" value="<?php echo date("Y-m-d"); ?>" required="">
                   </div>
 
                   <button type="submit" name="submit" id="submit" class="btn btn-primary" > <i class="fa fa-eye"></i> Tampil </button>

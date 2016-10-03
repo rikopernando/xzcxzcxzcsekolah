@@ -831,13 +831,14 @@ $(document).ready(function(){
 
   }
   else if (ber_stok == 'Jasa' ){
-
+$("#kode_barang").focus();
  $.post("prosestbspenjualan.php",{no_faktur:no_faktur,kode_barang:kode_barang,nama_barang:nama_barang,jumlah_barang:jumlah_barang,harga:harga,potongan:potongan,tax:tax,satuan:satuan,sales:sales},function(data){
      
   
 
       $("#ppn").attr("disabled", true);
      $("#tbody").prepend(data);
+
      $("#kode_barang").val('');
      $("#nama_barang").val('');
      $("#jumlah_barang").val('');
@@ -857,18 +858,20 @@ $(document).ready(function(){
   }
 
   else{
-
+    $("#kode_barang").focus();
     $.post("prosestbspenjualan.php",{no_faktur:no_faktur,kode_barang:kode_barang,nama_barang:nama_barang,jumlah_barang:jumlah_barang,harga:harga,potongan:potongan,tax:tax,satuan:satuan,sales:sales},function(data){
      
 
       $("#ppn").attr("disabled", true);
      $("#tbody").prepend(data);
+     
      $("#kode_barang").val('');
      $("#nama_barang").val('');
      $("#jumlah_barang").val('');
      $("#potongan1").val('');
      $("#tax1").val('');
      $("#pembayaran_penjualan").val('');
+
      
      });
 }
@@ -950,7 +953,6 @@ $("#submit_produk").mouseleave(function(){
         $("#total2").val(data);
         $("#total1").val(data);
         });
-
 
 
             var kode_pelanggan = $("#kd_pelanggan").val();

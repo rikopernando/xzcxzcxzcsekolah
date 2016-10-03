@@ -9,7 +9,7 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM pembayaran_piutang WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
+$perintah = $db->query("SELECT p.nama_pelanggan,pp.nama_suplier,pp.no_faktur_pembayaran,pp.tanggal,pp.dari_kas,pp.total FROM pembayaran_piutang pp LEFT JOIN pelanggan p ON pp.nama_suplier = p.kode_pelanggan WHERE pp.tanggal >= '$dari_tanggal' AND pp.tanggal <= '$sampai_tanggal'");
 
 
 
@@ -28,7 +28,7 @@ $perintah = $db->query("SELECT * FROM pembayaran_piutang WHERE tanggal >= '$dari
 		<thead>
 			<th style="background-color: #4CAF50; color: white;"> Nomor Faktur </th>
 			<th style="background-color: #4CAF50; color: white;"> Tanggal </th>
-			<th style="background-color: #4CAF50; color: white;"> Kode Suplier </th>
+			<th style="background-color: #4CAF50; color: white;"> Kode Pelanggan </th>
 			<th style="background-color: #4CAF50; color: white;"> Cara Bayar </th>
 			<th style="background-color: #4CAF50; color: white;"> Potongan </th>
 			<th style="background-color: #4CAF50; color: white;"> Jumlah Bayar </th>
@@ -47,7 +47,7 @@ $perintah = $db->query("SELECT * FROM pembayaran_piutang WHERE tanggal >= '$dari
 			echo "<tr>
 			<td>". $data1['no_faktur_pembayaran'] ."</td>
 			<td>". $data1['tanggal'] ."</td>
-			<td>". $data1['nama_suplier'] ."</td>
+			<td> ". $data1['nama_suplier'] ." ". $data1['nama_pelanggan'] ."</td>
 			<td>". $data1['dari_kas'] ."</td>
 			<td>". $cek['potongan'] ."</td>
 			<td>". rp($data1['total']) ."</td>
