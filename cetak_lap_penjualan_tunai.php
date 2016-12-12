@@ -77,7 +77,7 @@ $no_faktur = $_GET['no_faktur'];
     Terima Kasih<br>
     Selamat Datang Kembali<br>
     Telp. <?php echo $data1['no_telp']; ?><br>
-
+    (* Sudah Termasuk PPN 10%)
     
  <script>
 $(document).ready(function(){

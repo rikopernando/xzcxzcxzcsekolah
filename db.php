@@ -3,7 +3,7 @@
 date_default_timezone_set("Asia/Jakarta");
 
 // perintah untuk mengkoneksikan php ke database mysql
-$db = new mysqli('localhost','root','','aplikasi_toko');
+$db = new mysqli('localhost','root','','sekolah');
 
 
 // Check connection

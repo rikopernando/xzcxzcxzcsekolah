@@ -14,9 +14,7 @@ $query = $db->query("SELECT * FROM satuan");
 <table id="tableuser" class="table table-bordered">
 		<thead>
 			<th> Satuan </th>
-			<th> Nama Cetak </th>
-			<th> Dari Satuan </th>
-			<th> Quantity </th>
+			
 
 <?php 
 include 'db.php';
@@ -52,11 +50,8 @@ $satuan_edit = mysqli_num_rows($pilih_akses_satuan_edit);
 			while ($data = mysqli_fetch_array($query))
 			{
 			echo "<tr class='tr-id-".$data['id']."'>
-			<td>". $data['nama'] ."</td>
-			<td>". $data['nama_cetak'] ."</td>
-			<td>". $data['dari_satuan'] ."</td>
-			<td>". $data['qty'] ."</td>";
-
+			<td>". $data['nama'] ."</td>";
+			
 
 include 'db.php';
 

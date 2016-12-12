@@ -304,12 +304,12 @@ if ($potongan != "" || $potongan != 0 ) {
     while ($data = mysqli_fetch_array($query))
     {
 
-      $pilih_konversi = $db->query("SELECT  sk.konversi * $data[jumlah_barang] AS jumlah_konversi, sk.harga_pokok / sk.konversi AS harga_konversi, sk.id_satuan, b.satuan FROM satuan_konversi sk INNER JOIN barang b ON sk.id_produk = b.id  WHERE sk.id_satuan = '$data[satuan]' AND sk.kode_produk = '$data[kode_barang]'");
+      $pilih_konversi = $db->query("SELECT sk.konversi * $data[jumlah_barang] AS jumlah_konversi, sk.harga_pokok / sk.konversi AS harga_konversi, sk.id_satuan, b.satuan FROM satuan_konversi sk INNER JOIN barang b ON sk.id_produk = b.id  WHERE sk.id_satuan = '$data[satuan]' AND sk.kode_produk = '$data[kode_barang]'");
       $data_konversi = mysqli_fetch_array($pilih_konversi);
 
       if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {
         $harga = $data_konversi['harga_konversi'];
-        $jumlah_barang = $data_konversi['jumlah_konversi'];
+         $jumlah_barang = $data_konversi['jumlah_konversi'];
         $satuan = $data_konversi['satuan'];
       }
       else{

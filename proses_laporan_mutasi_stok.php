@@ -9,7 +9,7 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 
-$barang = $db->query("SELECT nama_barang, kode_barang, satuan FROM barang");
+$barang = $db->query("SELECT b.nama_barang, b.kode_barang, b.satuan, s.nama FROM barang b INNER JOIN satuan s ON b.satuan = s.id");
 
 
  ?>
@@ -101,7 +101,7 @@ th {
 			echo "<tr>
 			<td>". $data_barang['kode_barang'] ."</td>
 			<td>". $data_barang['nama_barang'] ."</td>
-			<td>". $data_barang['satuan'] ."</td>
+			<td>". $data_barang['nama'] ."</td>
 			<td style='text-align: right'>".rp($awal)."</td>
 			<td style='text-align: right'>".rp($nilai_awal)."</td>
 			<td style='text-align: right'>".rp($masuk)."</td>

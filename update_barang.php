@@ -2,10 +2,22 @@
 	// memasukan file db.php
     include 'sanitasi.php';
     include 'db.php';
+    include 'cache_folder/cache.class.php';
+
     // mengrim data dengan menggunakan metode POST
     $id = angkadoang($_POST['id']);
     $input_beli = angkadoang($_POST['input_beli']);
     $jenis_edit = stringdoang($_POST['jenis_edit']);
+    echo $kode_barang = stringdoang($_POST['kode_barang']);
+
+    // membuat objek cache
+      $cache = new Cache();
+
+    // setting default cache 
+      $cache->setCache('produk');
+
+    // hapus cache
+      $cache->erase($kode_barang);
 
 if ($jenis_edit == 'harga_beli') {
 

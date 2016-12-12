@@ -4,8 +4,12 @@
 include 'db.php';
 include 'sanitasi.php';
 
+
+$session_id = session_id();
+
+
 // mengirim data no faktur menggunakan metode POST
- $session_id = $_POST['session_id'];
+
 
 
 // menampilakn hasil penjumlah subtotal ALIAS total penjualan dari tabel tbs_penjualan berdasarkan data no faktur

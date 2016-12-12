@@ -28,13 +28,13 @@ $session_id = session_id();
   <!-- membuat form menjadi beberapa bagian -->
   <form enctype="multipart/form-data" role="form" action="form_retur_penjualan.php" method="post ">
 
-					<input type="hidden" name="session_id" id="session_id" class="form-control" readonly="" value="<?php echo $session_id; ?>" required="" >
+					<input type="hidden" name="session_id" id="session_id" class="form-control" readonly="" value="<?php echo $session_id; ?>"  >
 
 	<div class="row">
     <div class="col-sm-2">
           <label> Kode Pelanggan </label> </label><br>
           
-          <select data-placeholder="--SILAHKAN PILIH--" name="kode_pelanggan" id="kd_pelanggan" class="form-control chosen" required="" >
+          <select data-placeholder="--SILAHKAN PILIH--" name="kode_pelanggan" id="kd_pelanggan" class="form-control chosen">
           
           <?php 
           
@@ -224,7 +224,7 @@ $session_id = session_id();
  
  <div class="form-group col-sm-2">
           
-          <select name="satuan_konversi" id="satuan_konversi" class="form-control"  required=""  >
+          <select name="satuan_konversi" id="satuan_konversi" class="form-control"  >
           
           <?php 
           
@@ -247,15 +247,15 @@ $session_id = session_id();
 <div class="row">
   
   <div class="form-group col-sm-3">
-  <input type="text" id="harga_produk" name="harga" class="form-control" autocomplete="off" value="" placeholder="Harga Barang" required="" style="height: 30px">
+  <input type="text" id="harga_produk" name="harga" class="form-control" autocomplete="off" value="" placeholder="Harga Barang"style="height: 30px">
   </div>
 
     <div class="form-group col-sm-3">
-  <input type="text" id="potongan1" name="potongan1" class="form-control" autocomplete="off" value="" placeholder="Potongan" required="" style="height: 30px">
+  <input type="text" id="potongan1" name="potongan1" class="form-control" autocomplete="off" value="" placeholder="Potongan"style="height: 30px">
   </div>
 
   <div class="form-group col-sm-2">
-  <input type="text" id="tax1" name="tax1" class="form-control" autocomplete="off" value="" placeholder="Pajak (%)" required="" style="height: 30px">
+  <input type="text" id="tax1" name="tax1" class="form-control" autocomplete="off" value="" placeholder="Pajak (%)"style="height: 30px">
   </div>
 
 
@@ -276,10 +276,10 @@ $session_id = session_id();
     
     <input type="hidden" id="harga_pcs" name="harga_pcs" class="form-control" value="" required="">    
     <input type="hidden" id="satuan_pcs" name="satuan_pcs" class="form-control" value="" required="">
-    <input type="hidden" name="session_id" id="session_id" class="form-control" value="<?php echo $session_id; ?>" required="" >
-    <input type="hidden" id="no_faktur2" name="no_faktur_penjualan" class="form-control" value="" required="">
-    <input type="hidden" name="jumlah_beli" class="form-control" value="<?php echo $data1['jumlah_barang']; ?>" required="" >
-    <input type="hidden" id="sisabarang" name="sisa" class="form-control" value="" required="" >
+    <input type="hidden" name="session_id" id="session_id" class="form-control" value="<?php echo $session_id; ?>">
+    <input type="hidden" id="no_faktur2" name="no_faktur_penjualan" class="form-control" = required="">
+    <input type="hidden" name="jumlah_beli" class="form-control" value="<?php echo $data1['jumlah_barang']; ?>">
+    <input type="hidden" id="sisabarang" name="sisa" class="form-control" value="">
     <br><br>
 
   
@@ -396,9 +396,9 @@ $session_id = session_id();
 
 
 <!-- memasukan teks pada kolom suplier, dan nomor faktur namun disembunyikan -->
-      <input type="hidden" name="session_id" id="session_id" class="form-control" value="<?php echo $session_id; ?>" required="" >
+      <input type="hidden" name="session_id" id="session_id" class="form-control" value="<?php echo $session_id; ?>">
 
-      <input type="hidden" name="kode_pelanggan" id="kd_pelanggan1" class="form-control" required="" >
+      <input type="hidden" name="kode_pelanggan" id="kd_pelanggan1" class="form-control">
   
   
 
@@ -613,7 +613,7 @@ if (jumlah_retur == ""){
 
     $("#total_retur_pembelian").val(tandaPemisahTitik(total_akhir));
     $("#total_retur_pembelian1").val(tandaPemisahTitik(total_akhir));
-     $("#kode_barang").focus();
+     
 
     $.post("proses_tbs_retur_penjualan.php",{session_id:session_id,no_faktur_penjualan:no_faktur,kode_barang:kode_barang,jumlah_retur:jumlah_retur,satuan_produk:satuan_produk,nama_barang:nama_barang,harga:harga,potongan1:potongan1,tax1:tax1,satuan_jual:satuan_jual},function(info) {
 
@@ -625,6 +625,7 @@ if (jumlah_retur == ""){
      $("#jumlah_retur").val('');
      $("#no_faktur2").val('');
      $("#harga_produk").val('');
+     $("#kode_barang").focus();
 
 
        

@@ -8,7 +8,7 @@ include 'sanitasi.php';
 include 'db.php';
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM penjualan ORDER BY id DESC");
+$perintah = $db->query("SELECT pel.nama_pelanggan ,p.total, p.no_faktur ,p.kode_pelanggan ,p.tanggal ,p.jam ,p.user ,p.status ,p.potongan ,p.tax ,p.sisa FROM penjualan p INNER JOIN pelanggan pel ON p.kode_pelanggan = pel.kode_pelanggan ORDER BY p.no_faktur DESC");
 
 
 $jumlah_total_bersih = $db->query("SELECT SUM(total) AS total_bersih FROM penjualan");
@@ -99,7 +99,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 				//menampilkan data
 			echo "<tr>
 			<td>". $data1['no_faktur'] ."</td>
-			<td>". $data1['kode_pelanggan'] ."</td>
+			<td>". $data1['kode_pelanggan'] ." ". $data1['nama_pelanggan'] ."</td>
 			<td>". rp($total_kotor) ."</td>
 			<td>". rp($data1['total']) ."</td>
 			<td>". $data1['tanggal'] ."</td>

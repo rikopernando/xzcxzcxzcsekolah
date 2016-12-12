@@ -218,7 +218,7 @@
                   <?php
                   
                   
-                  $perintah = $db->query("SELECT * FROM tbs_stok_awal");
+                  $perintah = $db->query("SELECT s.nama AS nama_satuan,tsa.id,kode_barang,tsa.nama_barang,tsa.jumlah_awal,tsa.harga,tsa.total FROM tbs_stok_awal tsa INNER JOIN satuan s ON tsa.satuan = s.id");
                   
                   //menyimpan data sementara yang ada pada $perintah
                   while ($data1 = mysqli_fetch_array($perintah))
@@ -233,7 +233,7 @@
                   <td class='edit-jumlah' data-id='".$data1['id']."'><span id='text-jumlah-".$data1['id']."'>". $data1['jumlah_awal'] ."</span> <input type='hidden' id='input-jumlah-".$data1['id']."' value='".$data1['jumlah_awal']."' class='input_jumlah' data-id='".$data1['id']."' autofocus='' data-harga='".$data1['harga']."' data-kode='".$data1['kode_barang']."' > </td>
 
                   
-                  <td>". $data1['satuan'] ."</td>
+                  <td>". $data1['nama_satuan'] ."</td>
                   <td>". rp($data1['harga']) ."</td>
                   <td><span id='text-total-".$data1['id']."'>". rp($data1['total']) ."</span></td>
 

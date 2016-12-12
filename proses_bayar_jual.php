@@ -111,23 +111,36 @@ echo $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
 
 
 
-    $query = $db->query("SELECT * FROM tbs_penjualan WHERE session_id = '$session_id'");
+    $query = $db->query("SELECT * FROM tbs_penjualan WHERE session_id = '$session_id' ORDER BY kode_barang ");
     while ($data = mysqli_fetch_array($query))
       {
 
       $pilih_konversi = $db->query("SELECT  sk.konversi * $data[jumlah_barang] AS jumlah_konversi, $data[subtotal] / ($data[jumlah_barang] * sk.konversi) AS harga_konversi, sk.id_satuan, b.satuan FROM satuan_konversi sk INNER JOIN barang b ON sk.id_produk = b.id  WHERE sk.id_satuan = '$data[satuan]' AND sk.kode_produk = '$data[kode_barang]'");
       $data_konversi = mysqli_fetch_array($pilih_konversi);
+      $data_rows = mysqli_num_rows($pilih_konversi);
 
-      if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {
-        $harga = $data_konversi['harga_konversi'];
-        $jumlah_barang = $data_konversi['jumlah_konversi'];
-        $satuan = $data_konversi['satuan'];
+      if ($data_rows > 0) {
+
+            if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {
+              $harga = $data_konversi['harga_konversi'];
+              $jumlah_barang = $data_konversi['jumlah_konversi'];
+              $satuan = $data_konversi['satuan'];
+            }
+            else{
+              $harga = $data['harga'];
+              $jumlah_barang = $data['jumlah_barang'];
+              $satuan = $data['satuan'];
+            }
+        
       }
+      
       else{
         $harga = $data['harga'];
         $jumlah_barang = $data['jumlah_barang'];
         $satuan = $data['satuan'];
       }
+
+      
         
     
         $query2 = "INSERT INTO detail_penjualan (no_faktur, tanggal, jam, kode_barang, nama_barang, jumlah_barang, asal_satuan,satuan, harga, subtotal, potongan, tax, sisa) VALUES ('$no_faktur', '$tanggal_sekarang', '$jam_sekarang', '$data[kode_barang]','$data[nama_barang]','$jumlah_barang','$satuan','$data[satuan]','$harga','$data[subtotal]','$data[potongan]','$data[tax]', '$jumlah_barang')";

@@ -24,8 +24,6 @@ $no_faktur = stringdoang($_POST['no_faktur']);
             <th> Harga Jual Level 3</th>
             <th> Jumlah Barang </th>
             <th> Satuan </th>
-            <th> Kategori </th>
-            <th> Status </th>
             <th> Suplier </th>
             <th> Tambah </th>
         
@@ -36,7 +34,7 @@ $no_faktur = stringdoang($_POST['no_faktur']);
 
 
         
-        $perintah = $db->query("SELECT * FROM barang ");
+        $perintah = $db->query("SELECT s.nama AS nama_satuan ,b.id ,b.limit_stok ,b.berkaitan_dgn_stok ,b.kode_barang ,b.nama_barang ,b.harga_beli ,b.harga_jual ,b.harga_jual2 ,b.harga_jual3 ,b.satuan ,b.suplier FROM barang b INNER JOIN satuan s ON b.satuan = s.id ");
         
         //menyimpan data sementara yang ada pada $perintah
         while ($data1 = mysqli_fetch_array($perintah))
@@ -110,9 +108,7 @@ $no_faktur = stringdoang($_POST['no_faktur']);
             <td>". rp($data1['harga_jual2']) ."</td>
             <td>". rp($data1['harga_jual3']) ."</td>
             <td>". $sisa_barang ."</td>
-            <td>". $data1['satuan'] ."</td>
-            <td>". $data1['kategori'] ."</td>
-            <td>". $data1['status'] ."</td>
+            <td>". $data1['nama_satuan'] ."</td>
             <td>". $data1['suplier'] ."</td>
             <td> <button type='button' class='btn btn-sm btn-primary btn-tambah'>Tambah</button> </td>
             </tr>";

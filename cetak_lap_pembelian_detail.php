@@ -107,6 +107,20 @@ $t_barang = $cek011['total_barang'];
                   while ($data11 = mysqli_fetch_array($perintah009))
 
                   {
+
+               $pilih_konversi = $db->query("SELECT $data11[jumlah_barang] / sk.konversi AS jumlah_konversi, sk.harga_pokok / sk.konversi AS harga_konversi, sk.id_satuan, b.satuan FROM satuan_konversi sk INNER JOIN barang b ON sk.id_produk = b.id  WHERE sk.id_satuan = '$data11[satuan]' AND sk.kode_produk = '$data11[kode_barang]'");
+                $data_konversi = mysqli_fetch_array($pilih_konversi);
+
+                if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {
+                  
+                   $jumlah_barang = $data_konversi['jumlah_konversi'];
+                }
+                else{
+                  $jumlah_barang = $data11['jumlah_barang'];
+                }
+
+
+
                         ///menampilkan seluruh data yang ada pada tabel pembelian
                         $perintah123 = $db->query("SELECT * FROM pembelian WHERE no_faktur = '$data11[no_faktur]'");
                         $data123 = mysqli_fetch_array($perintah123);
@@ -135,7 +149,7 @@ $t_barang = $cek011['total_barang'];
                         
                         <td>". $data11['tanggal'] ." <br><br><u><i>Nama Barang</i></u><br>". $data012['nama_barang'] ."<br><br><br><b><br>". rp($data012['potongan']) ."</td>
                         
-                        <td>". $sup['nama'] ." <br><br><br><br><br><b><br><br>Pajak :</td>                        <td>". $data1234['nama_pelanggan'] ." <br><br><i><u>Jumlah</u>&nbsp;&nbsp;<u>Satuan</u></i><br>". $data012['jumlah_barang'] ." &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ". $data012['nama_satuan'] ."<br>.........................<br> ". $total_barang ."<b><br><b><br>". rp($data012['tax']) ."</td>
+                        <td>". $sup['nama'] ." <br><br><br><br><br><b><br><br>Pajak :</td>                        <td>". $data1234['nama_pelanggan'] ." <br><br><i><u>Jumlah</u>&nbsp;&nbsp;<u>Satuan</u></i><br>". $jumlah_barang ." &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ". $data012['nama_satuan'] ."<br>.........................<br> ". $total_barang ."<b><br><b><br>". rp($data012['tax']) ."</td>
                         <td><br><br><i><u>Harga</u>&nbsp;&nbsp;<u>Pot.</u><br>". rp($data012['harga']) ."&nbsp;&nbsp;&nbsp;". rp($data012['potongan']) ."<b><br><b><br><b><br><b><br>Total Akhir :</td>
                         <td><br><br><i><u>Total</u><br>". rp($data012['subtotal']) ." <br>.........................<br> ". rp($total_subtotal) ."<b><br><b><br>". rp($total_subtotal) ."</td>
 

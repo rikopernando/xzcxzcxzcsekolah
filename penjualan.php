@@ -558,14 +558,12 @@ mysqli_close($db);
 		var id = $(this).attr("data-id");
 		var no_faktur = $("#faktur_hapus").val();
 		var kode_meja = $("#kode_meja").val();
-		$.post("hapus_data_penjualan.php",{id:id,no_faktur:no_faktur,kode_meja:kode_meja},function(data){
-		if (data == 'sukses') {
-
 		
-		$("#modal_hapus").modal('hide');
+		
 		$(".tr-id-"+id).remove();
-		
-		}
+		$("#modal_hapus").modal('hide');
+		$.post("hapus_data_penjualan.php",{id:id,no_faktur:no_faktur,kode_meja:kode_meja},function(data){
+
 		
 		});
 		

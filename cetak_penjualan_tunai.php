@@ -7,7 +7,7 @@ include 'db.php';
 
 
 
-$no_faktur = $_SESSION['no_faktur'];
+$no_faktur = $_GET['no_faktur'];
 
     $query0 = $db->query("SELECT * FROM penjualan WHERE no_faktur = '$no_faktur' ");
     $data0 = mysqli_fetch_array($query0);
@@ -67,6 +67,7 @@ mysqli_close($db);
     Terima Kasih<br>
     Selamat Datang Kembali<br>
     Telp. <?php echo $data1['no_telp']; ?><br>
+    (* Sudah Termasuk PPN 10%)
 
 
  <script>

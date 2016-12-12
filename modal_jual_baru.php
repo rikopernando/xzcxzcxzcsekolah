@@ -87,7 +87,7 @@
             $stok_barang = $total_1 - $total_2;
         
         // menampilkan data
-        echo "<tr class='pilih' data-kode='". $data1['kode_barang'] ."' nama-barang='". $data1['nama_barang'] ."' limit_stok='". $data1['limit_stok'] ."'
+        echo "<tr class='pilih' data-kode='". $data1['kode_barang'] ."(". $data1['nama_barang'] .")' nama-barang='". $data1['nama_barang'] ."' limit_stok='". $data1['limit_stok'] ."'
         satuan='". $data1['satuan'] ."' harga='". $data1['harga_jual'] ."' harga_level_2='". $data1['harga_jual2'] ."'  harga_level_3='". $data1['harga_jual3'] ."'  jumlah-barang='". $stok_barang ."' ber-stok='". $data1['berkaitan_dgn_stok'] ."' id-barang='". $data1['id'] ."'>
         
             <td>". $data1['kode_barang'] ."</td>

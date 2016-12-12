@@ -1,5 +1,5 @@
 <?php  include 'session_login.php';
-	// memasukan file login, header, navbar, dan db.
+    // memasukan file login, header, navbar, dan db.
     
     include 'header.php';
     include 'navbar.php';
@@ -170,7 +170,7 @@ echo '<br><button type="button" class="btn btn-info" data-toggle="modal" data-ta
                             <label> Satuan </label>
                             <br>
                             <select type="text" name="satuan" class="form-control" required="">
-					
+                    
                             <?php 
                             
                             // memasukan file db.php
@@ -429,8 +429,8 @@ th {
           <ul class="nav nav-tabs md-pills pills-ins" role="tablist">
           <?php if ($tipe == 'barang'): ?>
 
-          <li class="nav-item"><a class="nav-link active" href='barang.php?kategori=semua&tipe=barang'> Umum </a></li>
-          <li class="nav-item"><a class="nav-link" href='barang_2.php?kategori=semua&tipe=barang' > Lain - lain </a></li>
+          <li class="nav-item"><a class="nav-link " href='barang.php?kategori=semua&tipe=barang'> Umum </a></li>
+          <li class="nav-item"><a class="nav-link active" href='barang_2.php?kategori=semua&tipe=barang' > Lain - lain </a></li>
 
           <?php else: ?>
 
@@ -460,20 +460,7 @@ th {
             <th>Limit Stok</th>
             <th>Over Stok</th>
             <th>Status</th>
-            
-     
-<?php  
-include 'db.php';
-
-$pilih_akses_barang_hapus = $db->query("SELECT item_hapus FROM otoritas_master_data WHERE id_otoritas = '$_SESSION[otoritas_id]' AND item_hapus = '1'");
-$barang_hapus = mysqli_num_rows($pilih_akses_barang_hapus);
-
-
-    if ($barang_hapus > 0){
-
-            echo "<th> Hapus </th>";
-        }
-    ?>
+            <th> Hapus </th>
 
 <?php  
 include 'db.php';
@@ -483,17 +470,17 @@ $barang_edit = mysqli_num_rows($pilih_akses_barang_edit);
 
 
     if ($barang_edit > 0){
-							echo	"<th> Edit </th>";
+                            echo    "<th> Edit </th>";
 
-						}
-			 ?>
-			
-		   </thead>
+                        }
+             ?>
+            
+           </thead>
 
         <tbody>
-			
-		<?php
-	// menyimpan data sementara yang ada di $perintah
+            
+        <?php
+    // menyimpan data sementara yang ada di $perintah
     while ($data1 = mysqli_fetch_array($perintah))
     {
 
@@ -506,8 +493,8 @@ $barang_edit = mysqli_num_rows($pilih_akses_barang_edit);
     
         // menampilkan file yang ada di masing-masing data dibawah ini
         echo "<tr>
-			<td>". $data1['kode_barang'] ."</td>
-			<td>". $data1['nama_barang'] ."</td>";
+            <td>". $data1['kode_barang'] ."</td>
+            <td>". $data1['nama_barang'] ."</td>";
 
 // Berkaitan Dengan STOK
 
@@ -581,13 +568,18 @@ $pilih_akses_barang_hapus = $db->query("SELECT item_hapus FROM otoritas_master_d
 $barang_hapus = mysqli_num_rows($pilih_akses_barang_hapus);
 
 
-    if ($barang_hapus > 0 AND $ambil_sisa['jumlah_barang'] == '0')        
+    if ($barang_hapus > 0 AND ($ambil_sisa['jumlah_barang'] == '0' OR $ambil_sisa['jumlah_barang'] == ''))        
 
             {
          
             echo "
-			<td> <button class='btn btn-danger btn-hapus' data-id='". $data1['id'] ."'  data-nama='". $data1['nama_barang'] ."'> <span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td>";
+            <td> <button class='btn btn-danger btn-hapus' data-id='". $data1['id'] ."'  data-nama='". $data1['nama_barang'] ."'> <span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td>";
         }
+        else
+        {
+            echo "<td>Tidak Bisa Dihapus</td>";
+        }
+
 
 
 
@@ -605,12 +597,6 @@ $barang_edit = mysqli_num_rows($pilih_akses_barang_edit);
             echo "<td> <a href='editbarang.php?id=". $data1['id']."' class='btn btn-success'><span class='glyphicon glyphicon-edit'></span> Edit</a> </td>
             </tr>";
             
-            }
-            
-        else{
-
-                echo "<td> </td>";
-
             }
 
     }
@@ -637,9 +623,10 @@ $barang_edit = mysqli_num_rows($pilih_akses_barang_edit);
         mysqli_close($db);
 
     ?>
-		</tbody>
+        </tbody>
 
-	</table>
+    </table>
+        <h6 style="text-align: left ; color: red"><i> * Jika barang sudah terjadi transaksi maka barang tersebut tidak dapat dihapus.</i></h6>
 </span>
 
 

@@ -38,7 +38,7 @@ if (!$query)
 }
 else 
 {
-   header('location:barang.php?kategori=semua');
+   header('location:barang.php?kategori=semua&tipe=barang');
 }
 
 

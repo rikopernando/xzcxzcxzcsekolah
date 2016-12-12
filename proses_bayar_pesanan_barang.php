@@ -20,7 +20,10 @@ $jam_sekarang = date('H:i:sa');
 $tahun_terakhir = substr($tahun_sekarang, 2);
 $tanggal = stringdoang($_POST['tanggal']);
 $waktu = $tanggal." ".$jam_sekarang;
+
+  
     
+
     $select_kode_pelanggan = $db->query("SELECT nama_pelanggan FROM pelanggan WHERE kode_pelanggan = '$kode_pelanggan'");
     $ambil_kode_pelanggan = mysqli_fetch_array($select_kode_pelanggan);
 
@@ -59,17 +62,58 @@ $waktu = $tanggal." ".$jam_sekarang;
 
             }
             
-            $delete = $db->query("DELETE FROM detail_penjualan WHERE no_faktur = '$nomor_faktur'");
-            
+          
             
             $query12 = $db->query("SELECT * FROM tbs_penjualan WHERE no_faktur = '$nomor_faktur' ");
             while ($data = mysqli_fetch_array($query12))
             
             {
-            $query2 = $db->query("INSERT INTO detail_penjualan (no_faktur, kode_barang, nama_barang, jumlah_barang, satuan, harga, subtotal, potongan, tax, sisa)
-            VALUES ('$data[no_faktur]', '$data[kode_barang]', '$data[nama_barang]', '$data[jumlah_barang]', '$data[satuan]', '$data[harga]', '$data[subtotal]', '$data[potongan]', '$data[tax]', '$data[jumlah_barang]')"); 
+
+            $select_hpp_keluar = $db->query("SELECT * FROM hpp_keluar WHERE no_faktur = '$nomor_faktur' AND kode_barang = '$data[kode_barang]' AND sisa_barang != jumlah_kuantitas ");
+            $row_hpp_keluar = mysqli_num_rows($select_hpp_keluar);
+
+            if ($row_hpp_keluar == 0) {
+
+                $delete_detail_penjualan = $db->query("DELETE FROM detail_penjualan WHERE no_faktur = '$nomor_faktur' AND kode_barang = '$data[kode_barang]'");
+
+
+            
+            $pilih_konversi = $db->query("SELECT  sk.konversi * $data[jumlah_barang] AS jumlah_konversi, $data[harga] * $data[jumlah_barang] / sk.konversi AS harga_konversi, sk.id_satuan, b.satuan FROM satuan_konversi sk INNER JOIN barang b ON sk.id_produk = b.id  WHERE sk.id_satuan = '$data[satuan]' AND kode_produk = '$data[kode_barang]'");
+            $data_konversi = mysqli_fetch_array($pilih_konversi);
+            
+            if ($data_konversi['harga_konversi'] != 0 || $data_konversi['harga_konversi'] != "") {
+            $harga = $data_konversi['harga_konversi'];
+            $jumlah_barang = $data_konversi['jumlah_konversi'];
+            $satuan = $data_konversi['satuan'];
+            }
+            else{
+            $harga = $data['harga'];
+            $jumlah_barang = $data['jumlah_barang'];
+            $satuan = $data['satuan'];
+            }
+               $query2 = "INSERT INTO detail_penjualan (no_faktur, tanggal, jam, kode_barang, nama_barang, jumlah_barang, asal_satuan,satuan, harga, subtotal, potongan, tax, sisa)
+               VALUES ('$data[no_faktur]', '$tanggal','$jam_sekarang', '$data[kode_barang]', '$data[nama_barang]', '$jumlah_barang', '$satuan','$data[satuan]', '$harga', '$data[subtotal]', '$data[potongan]', '$data[tax]', '$jumlah_barang')";
+
+                       if ($db->query($query2) === TRUE) {
+                       } 
+                       
+                       else {
+                       echo "Error: " . $query2 . "<br>" . $db->error;
+                       }
+                       
+            } 
+
+            else {
+                
             }
             
+            
+    
+
+            }
+            
+
+
 
             
             $sisa = angkadoang($_POST['sisa']);
@@ -143,7 +187,7 @@ if ($ppn_input == "Non") {
 
     $total_penjualan = $total2;
 
-echo $ppn_input;
+
   //Total Penjualan
         $insert_juranl = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat) VALUES ('".no_jurnal()."', '$tanggal_sekarang $jam_sekarang', 'Penjualan Tunai - $ambil_kode_pelanggan[nama_pelanggan]', '$ambil_setting[total_penjualan]', '0', '$total_penjualan', 'Penjualan', '$nomor_faktur','1', '$user')");
 
@@ -152,7 +196,7 @@ echo $ppn_input;
 
 else if ($ppn_input == "Include") {
 //ppn == Include
-echo $ppn_input;
+
   $total_penjualan = $total2 - $total_tax;
   $pajak = $total_tax;
 
@@ -171,7 +215,7 @@ else {
   //ppn == Exclude
   $total_penjualan = $total2;
   $pajak = $tax;
-echo $ppn_input;
+
  //Total Penjualan
         $insert_juranl = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat) VALUES ('".no_jurnal()."', '$tanggal_sekarang $jam_sekarang', 'Penjualan Tunai - $ambil_kode_pelanggan[nama_pelanggan]', '$ambil_setting[total_penjualan]', '0', '$total_penjualan', 'Penjualan', '$nomor_faktur','1', '$user')");
 
@@ -264,7 +308,7 @@ if ($ppn_input == "Non") {
 
     $total_penjualan = $total2;
 
-echo $ppn_input;
+
   //Total Penjualan
         $insert_juranl = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat) VALUES ('".no_jurnal()."', '$tanggal_sekarang $jam_sekarang', 'Penjualan Piutang - $ambil_kode_pelanggan[nama_pelanggan]', '$ambil_setting[total_penjualan]', '0', '$total_penjualan', 'Penjualan', '$nomor_faktur','1', '$user')");
 
@@ -273,7 +317,7 @@ echo $ppn_input;
 
 else if ($ppn_input == "Include") {
 //ppn == Include
-echo $ppn_input;
+
   $total_penjualan = $total2 - $total_tax;
   $pajak = $total_tax;
 
@@ -292,7 +336,7 @@ else {
   //ppn == Exclude
   $total_penjualan = $total2;
   $pajak = $tax;
-echo $ppn_input;
+
  //Total Penjualan
         $insert_juranl = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat) VALUES ('".no_jurnal()."', '$tanggal_sekarang $jam_sekarang', 'Penjualan Piutang - $ambil_kode_pelanggan[nama_pelanggan]', '$ambil_setting[total_penjualan]', '0', '$total_penjualan', 'Penjualan', '$nomor_faktur','1', '$user')");
 
@@ -330,9 +374,6 @@ else {
 }
 
 
-
-
-    echo "Success";
 
 //Untuk Memutuskan Koneksi Ke Database
 mysqli_close($db);   
