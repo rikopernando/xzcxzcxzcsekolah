@@ -84,7 +84,7 @@ $total_akhir = $cek02['total_akhir'];
             <tbody>
             <?php
 
-                  $perintah009 = $db->query("SELECT p.no_faktur_pembayaran,p.tanggal,p.nama_suplier,p.dari_kas,p.total,s.nama FROM pembayaran_hutang p INNER JOIN suplier s ON p.nama_suplier = s.id WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal' ORDER BY p.id DESC");
+                  $perintah009 = $db->query("SELECT da.nama_daftar_akun,p.no_faktur_pembayaran,p.tanggal,p.nama_suplier,p.dari_kas,p.total,s.nama FROM pembayaran_hutang p INNER JOIN suplier s ON p.nama_suplier = s.id INNER JOIN daftar_akun da ON p.dari_kas = da.kode_daftar_akun WHERE p.tanggal >= '$dari_tanggal' AND p.tanggal <= '$sampai_tanggal' ORDER BY p.id DESC");
                   while ($data11 = mysqli_fetch_array($perintah009))
 
                   {
@@ -98,7 +98,7 @@ $total_akhir = $cek02['total_akhir'];
                   <td>". $data11['no_faktur_pembayaran'] ."</td>
                   <td>". $data11['tanggal'] ."</td>
                   <td>". $data11['nama'] ."</td>
-                  <td>". $data11['dari_kas'] ."</td>
+                  <td>". $data11['nama_daftar_akun'] ."</td>
                   <td>". rp($data0['potongan']) ."</td>
                   <td>". rp($data11['total']) ."</td>
                   </tr>";

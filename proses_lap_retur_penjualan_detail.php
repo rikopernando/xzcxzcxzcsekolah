@@ -9,7 +9,7 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM detail_retur_penjualan WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
+$perintah = $db->query("SELECT s.nama AS nama_satuan,drp.no_faktur_retur,drp.tanggal,drp.kode_barang,drp.nama_barang,drp.jumlah_retur,drp.satuan,drp.harga,drp.potongan,drp.subtotal FROM detail_retur_penjualan drp INNER JOIN satuan s ON drp.satuan = s.id WHERE drp.tanggal >= '$dari_tanggal' AND drp.tanggal <= '$sampai_tanggal'");
 
 
 
@@ -50,8 +50,6 @@ tr:nth-child(even){background-color: #f2f2f2}
 					while ($data1 = mysqli_fetch_array($perintah))
 					{
 
-						$perintah11 = $db->query("SELECT * FROM barang WHERE kode_barang = '$data1[kode_barang]'");
-						$cek11 = mysqli_fetch_array($perintah11);
 
 					//menampilkan data
 					echo "<tr>
@@ -60,7 +58,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 					<td>". $data1['kode_barang'] ."</td>
 					<td>". $data1['nama_barang'] ."</td>
 					<td>". $data1['jumlah_retur'] ."</td>
-					<td>". $cek11['satuan'] ."</td>
+					<td>". $data1['nama_satuan'] ."</td>
 					<td>". rp($data1['harga']) ."</td>
 					<td>". rp($data1['potongan']) ."</td>
 					<td>". rp($data1['subtotal']) ."</td>
@@ -78,7 +76,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 
 <br>
 
-       <a href='cetak_lap_retur_penjualan_detail.php?dari_tanggal=<?php echo $dari_tanggal; ?>&sampai_tanggal=<?php echo $sampai_tanggal; ?>' class='btn btn-success'><i class='fa fa-print'> </i> Cetak Retur Penjualan </a>
+       <a href='cetak_lap_retur_penjualan_detail.php?dari_tanggal=<?php echo $dari_tanggal; ?>&sampai_tanggal=<?php echo $sampai_tanggal; ?>' class='btn btn-success' target='blank' ><i class='fa fa-print'> </i> Cetak Retur Penjualan </a>
 
 </div>
 

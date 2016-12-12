@@ -78,7 +78,6 @@ include 'db.php';
       <tr><td width="25%"><font class="satu">No Faktur</font></td> <td> :&nbsp;</td> <td><font class="satu"><?php echo $no_faktur; ?></font> </tr>
       <tr><td  width="25%"><font class="satu"><?php echo $data200['kata_ubah']; ?></font></td> <td> :&nbsp;</td> <td> <font class="satu"><?php echo $data0['nama_pelanggan']; ?></font> </td></tr>
       <tr><td  width="25%"><font class="satu">Alamat</font></td> <td> :&nbsp;</td> <td><font class="satu"> <?php echo $data0['wilayah']; ?> </font></td></tr>
-      <tr><td  width="25%"><font class="satu"><?php echo $data20['kata_ubah']; ?></font></td> <td> :&nbsp;</td> <td><font class="satu"> <?php echo $data0['sales']; ?></font></td></tr>
       <tr><td  width="25%"><font class="satu">Ket.</font></td> <td> :&nbsp;</td> <td><font class="satu"> <?php echo $data0['keterangan']; ?> </font></td></tr>
 
             

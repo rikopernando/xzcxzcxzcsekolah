@@ -8,7 +8,7 @@ include 'sanitasi.php';
 include 'db.php';
 
 //menampilkan seluruh data yang ada pada tabel retur_pembelian
-$perintah = $db->query("SELECT * FROM retur_penjualan");
+$perintah = $db->query("SELECT pel.nama_pelanggan,p.no_faktur_retur,p.tanggal,p.kode_pelanggan,p.total,p.potongan,p.tax,p.tunai FROM retur_penjualan p INNER JOIN pelanggan pel ON p.kode_pelanggan = pel.kode_pelanggan ");
 
  ?>
 
@@ -65,7 +65,7 @@ $perintah = $db->query("SELECT * FROM retur_penjualan");
 			echo "<tr>
 			<td>". $data1['no_faktur_retur'] ."</td>
 			<td>". $data1['tanggal'] ."</td>
-			<td>". $data1['kode_pelanggan'] ."</td>
+			<td>". $data1['kode_pelanggan'] ." ".$data1['nama_pelanggan']."</td>
 			<td>". $jumlah_retur ."</td>
 			<td>". rp($data1['total']) ."</td>
 			<td>". rp($data1['potongan']) ."</td>

@@ -90,7 +90,7 @@ $hutang = $total_bayar + $potongan;
         $insert_jurnal = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat,user_edit) VALUES ('".no_jurnal()."', '$tanggal $jam_sekarang', 'Pembayaran Hutang - $ambil_suplier[nama]', '$ambil_setting[hutang]', '$hutang', '0', 'Pembayaran Hutang', '$no_faktur_pembayaran','1', '$user_edit','$user_edit')");
 
         //KAS
-        $insert_juranl = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat,user_edit) VALUES ('".no_jurnal()."', '$tanggal $jam_sekarang', 'Pembayaran Hutang - $ambil_suplier[nama]', '$ambil_setting[kas]', '0', '$total_bayar', 'Pembayaran Hutang', '$no_faktur_pembayaran','1', '$user_edit','$user_edit')");
+        $insert_juranl = $db->query("INSERT INTO jurnal_trans (nomor_jurnal,waktu_jurnal,keterangan_jurnal,kode_akun_jurnal,debit,kredit,jenis_transaksi,no_faktur,approved,user_buat,user_edit) VALUES ('".no_jurnal()."', '$tanggal $jam_sekarang', 'Pembayaran Hutang - $ambil_suplier[nama]', '$cara_bayar', '0', '$total_bayar', 'Pembayaran Hutang', '$no_faktur_pembayaran','1', '$user_edit','$user_edit')");
 
 if ($potongan != "" || $potongan != '0') {
      //POTONGAN HUTANG    

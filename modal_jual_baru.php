@@ -28,9 +28,7 @@
         
         <tbody> <!-- tag pembuka tbody, yang digunakan untuk menampilkan data yang ada di database --> 
 <?php
-
-
-        
+ 
         $perintah = $db->query("SELECT s.nama,b.kode_barang,b.nama_barang,b.harga_beli,b.harga_jual,b.harga_jual2,b.harga_jual3,b.kategori,b.status,b.suplier,b.limit_stok,b.satuan,b.id,b.berkaitan_dgn_stok FROM barang b INNER JOIN satuan s ON b.satuan = s.id ");
         
         //menyimpan data sementara yang ada pada $perintah
@@ -89,7 +87,7 @@
             $stok_barang = $total_1 - $total_2;
         
         // menampilkan data
-        echo "<tr class='pilih' data-kode='". $data1['kode_barang'] ."' nama-barang='". $data1['nama_barang'] ."' limit_stok='". $data1['limit_stok'] ."'
+        echo "<tr class='pilih' data-kode='". $data1['kode_barang'] ."(". $data1['nama_barang'] .")' nama-barang='". $data1['nama_barang'] ."' limit_stok='". $data1['limit_stok'] ."'
         satuan='". $data1['satuan'] ."' harga='". $data1['harga_jual'] ."' harga_level_2='". $data1['harga_jual2'] ."'  harga_level_3='". $data1['harga_jual3'] ."'  jumlah-barang='". $stok_barang ."' ber-stok='". $data1['berkaitan_dgn_stok'] ."' id-barang='". $data1['id'] ."'>
         
             <td>". $data1['kode_barang'] ."</td>

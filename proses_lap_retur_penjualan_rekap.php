@@ -9,7 +9,7 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT * FROM retur_penjualan WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
+$perintah = $db->query("SELECT pel.nama_pelanggan,p.no_faktur_retur,p.tanggal,p.kode_pelanggan,p.total,p.potongan,p.tax,p.tunai FROM retur_penjualan p INNER JOIN pelanggan pel ON p.kode_pelanggan = pel.kode_pelanggan WHERE p.tanggal >= '$dari_tanggal' AND p.tanggal <= '$sampai_tanggal'");
 
 
 
@@ -52,7 +52,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 			echo "<tr>
 			<td>". $data1['no_faktur_retur'] ."</td>
 			<td>". $data1['tanggal'] ."</td>
-			<td>". $data1['kode_pelanggan'] ."</td>
+			<td>". $data1['kode_pelanggan'] ." ".$data1['nama_pelanggan']."</td>
 			<td>". $jumlah_retur ."</td>
 			<td>". rp($data1['total']) ."</td>
 			<td>". rp($data1['potongan']) ."</td>

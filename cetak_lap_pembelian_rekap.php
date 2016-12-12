@@ -107,7 +107,7 @@ $t_barang = $cek011['total_barang'];
             <tbody>
             <?php
 
-                  $perintah009 = $db->query("SELECT * FROM pembelian WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
+                  $perintah009 = $db->query("SELECT s.nama AS nama_suplier,p.no_faktur,p.tanggal,p.suplier,p.potongan,p.tax,p.total,p.kredit FROM pembelian p INNER JOIN suplier s ON p.suplier = s.id WHERE p.tanggal >= '$dari_tanggal' AND p.tanggal <= '$sampai_tanggal'");
                   while ($data11 = mysqli_fetch_array($perintah009))
 
                   {
@@ -125,7 +125,7 @@ $t_barang = $cek011['total_barang'];
                   echo "<tr>
                   <td>". $data11['no_faktur'] ."</td>
                   <td>". $data11['tanggal'] ."</td>
-                  <td>". $data11['suplier'] ."</td>
+                  <td>". $data11['nama_suplier'] ."</td>
                   <td>". $total_barang ."</td>
                   <td>". rp($total_subtotal) ."</td>
                   <td>". rp($data11['potongan']) ."</td>

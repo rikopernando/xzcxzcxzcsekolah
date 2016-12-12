@@ -5,7 +5,7 @@ include 'sanitasi.php';
 include 'db.php';
 
 //menampilkan seluruh data yang ada pada tabel pembelian dalan DB
-$perintah = $db->query("SELECT * FROM stok_awal");
+$perintah = $db->query("SELECT s.nama AS nama_satuan,sa.id,kode_barang,sa.nama_barang,sa.no_faktur,sa.jumlah_awal,sa.harga,sa.satuan,sa.total,sa.tanggal,sa.jam,sa.user FROM stok_awal sa INNER JOIN satuan s ON sa.satuan = s.id ");
 
 
 
@@ -53,7 +53,7 @@ $persediaan_stok_awal_hapus = mysqli_num_rows($pilih_akses_persediaan_stok_awal_
       <td>". $data1['kode_barang'] ."</td>
 			<td>". $data1['nama_barang'] ."</td>
 			<td>". $data1['jumlah_awal'] ."</td>
-			<td>". $data1['satuan'] ."</td>
+			<td>". $data1['nama_satuan'] ."</td>
 			<td>". rp($data1['harga']) ."</td>
 			<td>". rp($data1['total']) ."</td>
 			<td>". tanggal($data1['tanggal']) ."</td>

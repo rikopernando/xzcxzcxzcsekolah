@@ -57,25 +57,6 @@ echo '<button type="button" class="btn btn-info " data-toggle="modal" data-targe
 					<input type="text" name="nama" id="nama_satuan" class="form-control" autocomplete="off" required="" >
 					</div>
 
-					<div class="form-group">
-					<label> Nama Cetak </label>
-					<br>
-					<input type="text" id="nama_cetak" name="nama_cetak" class="form-control" required="">
-
-					</div>
-
-
-					<div class="form-group">
-					<label> Dari Satuan </label><br>
-					<input type="text" name="dari_satuan" id="dari_satuan" class="form-control" autocomplete="off" required="" >
-					</div>
-
-
-					<div class="form-group">
-					<label> Quantity </label><br>
-					<input type="text" name="qty" id="qty" autocomplete="off" class="form-control" required="" >
-					</div>
-
      
    </div>
    
@@ -200,9 +181,7 @@ th {
 <table id="tableuser" class="table table-bordered">
 		<thead>
 			<th> Satuan </th>
-			<th> Nama Cetak </th>
-			<th> Dari Satuan </th>
-			<th> Quantity </th>
+
 
 <?php 
 include 'db.php';
@@ -238,10 +217,7 @@ $satuan_edit = mysqli_num_rows($pilih_akses_satuan_edit);
 			while ($data = mysqli_fetch_array($query))
 			{
 			echo "<tr class='tr-id-".$data['id']."'>
-			<td>". $data['nama'] ."</td>
-			<td>". $data['nama_cetak'] ."</td>
-			<td>". $data['dari_satuan'] ."</td>
-			<td>". $data['qty'] ."</td>";
+			<td>". $data['nama'] ."</td>";
 
 
 include 'db.php';
@@ -287,35 +263,21 @@ $satuan_edit = mysqli_num_rows($pilih_akses_satuan_edit);
 //fungsi untuk menambahkan data
 		$("#submit_tambah").click(function(){
 		var nama = $("#nama_satuan").val();
-		var nama_cetak = $("#nama_cetak").val();
-		var dari_satuan = $("#dari_satuan").val();
-		var qty = $("#qty").val();
+
 
 		$("#nama_satuan").val('');
-		$("#nama_cetak").val('');
-		$("#dari_satuan").val('');
+
 
 		if (nama == ""){
 			alert("Nama Harus Diisi");
 		}
-		else if (nama_cetak == ""){
-			alert("Nama Cetak Harus Diisi");
-		}
-		else if (dari_satuan == ""){
-			alert("Dari Satuan Harus Diisi");
-		}
-		else if (qty == ""){
-			alert("Quantity Harus Diisi");
-		}
+	
 		else{
 
-		$.post('prosessatuan.php',{nama:nama,nama_cetak:nama_cetak,dari_satuan:dari_satuan,qty:qty},function(data){
+		$.post('prosessatuan.php',{nama:nama},function(data){
 
 		if (data != '') {
 		$("#nama_satuan").val('');
-		$("#nama_cetak").val('');
-		$("#dari_satuan").val('');
-		$("#qty").val('');
 		$(".alert").show('fast');
 		$("#table-baru").load('tabel-satuan.php');
 		

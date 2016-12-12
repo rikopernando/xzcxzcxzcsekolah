@@ -97,9 +97,9 @@ $data001 = mysqli_fetch_array($perintah);
             echo "<tr>
                 <td>". $data5['no_faktur_pembayaran'] ."</td>
                 <td>". $data5['tanggal_jt'] ."</td>
-                <td>". $data5['kredit'] ."</td>
-                <td>". $data5['potongan'] ."</td>
-                <td>". $data5['jumlah_bayar'] ."</td>
+                <td>". rp($data5['kredit']) ."</td>
+                <td>". rp($data5['potongan']) ."</td>
+                <td>". rp($data5['jumlah_bayar']) ."</td>
             <tr>";
 
             }

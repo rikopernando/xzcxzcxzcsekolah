@@ -425,7 +425,7 @@ $no_faktur = $nomor."/JL/".$data_bulan_terakhir."/".$tahun_terakhir;
       <td><span id='text-potongan-".$data1['id']."'>". rp($data1['potongan']) ."</span></td>
       <td><span id='text-tax-".$data1['id']."'>". rp($data1['tax']) ."</span></td>
 
-     <td> <button class='btn btn-danger btn-hapus-tbs' data-id='". $data1['id'] ."' data-subtotal='".$data1['subtotal']."' data-barang='". $data1['nama_barang'] ."'><span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> 
+     <td> <button class='btn btn-danger btn-hapus-tbs' id='hapus-tbs-".$data1['id']."' data-id='". $data1['id'] ."' data-subtotal='".$data1['subtotal']."' data-barang='". $data1['nama_barang'] ."'><span class='glyphicon glyphicon-trash'> </span> Hapus </button> </td> 
                 
 
       </tr>";
@@ -1068,6 +1068,7 @@ $.post("cek_total_pembelian.php",
     $("#pembayaran_pembelian").keyup(function(){
       var pembayaran = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#pembayaran_pembelian").val()))));
       var total = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#total_pembelian").val()))));
+       var kredit = bersihPemisah(bersihPemisah(bersihPemisah(bersihPemisah($("#kredit").val()))));
       var sisa = pembayaran - total;
       var sisa_kredit = total - pembayaran; 
 
@@ -1444,6 +1445,7 @@ $(document).on('click', '.btn-hapus-tbs', function (e) {
         $('#over_stok').val('');
         $('#harga_produk').val('');
         $('#satuan_produk').val('');
+        $('#satuan_konversi').val('');
         $('#harga_baru').val('');
       }
 
@@ -1453,6 +1455,7 @@ $(document).on('click', '.btn-hapus-tbs', function (e) {
         $('#over_stok').val(json.over_stok);
         $('#harga_produk').val(json.harga_beli);
         $('#satuan_produk').val(json.satuan);
+        $('#satuan_konversi').val(json.satuan);
         $('#harga_baru').val(json.harga_beli);
       }
                                               
@@ -1564,16 +1567,20 @@ function myFunction(event) {
                                     var tax_tbs = tax / subtotal_lama * 100;
                                     var jumlah_tax = tax_tbs * subtotal / 100;
 
-                                     $.post("update_pesanan_barang_beli.php",{harga:harga,jumlah_lama:jumlah_lama,jumlah_tax:jumlah_tax,potongan:potongan,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang},function(info){
 
                                     
                                     $("#text-jumlah-"+id+"").show();
                                     $("#text-jumlah-"+id+"").text(jumlah_baru);
                                     $("#text-subtotal-"+id+"").text(tandaPemisahTitik(subtotal));
+                                    $("#hapus-tbs-"+id+"").attr('data-subtotal', subtotal);
                                     $("#text-tax-"+id+"").text(jumlah_tax);
                                     $("#input-jumlah-"+id+"").attr("type", "hidden"); 
                                     $("#total_pembelian").val(tandaPemisahTitik(subtotal_penjualan));   
                                     $("#total_pembelian1").val(tandaPemisahTitik(subtotal_penjualan));         
+
+
+
+                                     $.post("update_pesanan_barang_beli.php",{harga:harga,jumlah_lama:jumlah_lama,jumlah_tax:jumlah_tax,potongan:potongan,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang},function(){
 
                                     });
 

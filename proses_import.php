@@ -22,7 +22,7 @@ else {
         //Import uploaded file to Database, Letakan dibawah sini..
         $handle = fopen($_FILES['import_excell']['tmp_name'], "r"); //Membuka file dan membacanya
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $import = "INSERT INTO barang (kode_barang,nama_barang,harga_beli,harga_jual,stok_barang,satuan,kategori,status,suplier) values('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]')"; 
+            $import = "INSERT INTO barang (kode_barang,nama_barang,harga_beli,harga_jual,stok_barang,satuan,kategori,status,suplier,berkaitan_dgn_stok) values('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]')"; 
 
 if ($db->query($import) === TRUE) {
     echo "New record created successfully";

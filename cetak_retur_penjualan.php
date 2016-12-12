@@ -8,7 +8,7 @@ include 'db.php';
 $no_faktur_retur = $_SESSION['no_faktur_retur'];
 
 
-    $query0 = $db->query("SELECT * FROM retur_penjualan WHERE no_faktur_retur = '$no_faktur_retur' ");
+    $query0 = $db->query("SELECT p.nama_pelanggan,rp.id,rp.kode_pelanggan,rp.no_faktur_retur,rp.kode_pelanggan,rp.total,rp.potongan,rp.tax,rp.tanggal,rp.jam,rp.user_buat,rp.user_edit,rp.tanggal_edit,rp.tunai,rp.sisa FROM retur_penjualan rp INNER JOIN pelanggan p ON rp.kode_pelanggan = p.kode_pelanggan WHERE rp.no_faktur_retur = '$no_faktur_retur' ");
     $data0 = mysqli_fetch_array($query0);
 
     $query1 = $db->query("SELECT * FROM perusahaan ");
@@ -49,7 +49,7 @@ $no_faktur_retur = $_SESSION['no_faktur_retur'];
   <tbody>
     <tr><td>No Faktur</td> <td>:&nbsp;</td><td><?php echo $data0['no_faktur_retur']; ?></td></tr>
     <tr><td>Tanggal</td> <td>:&nbsp;</td><td><?php echo tanggal($data0['tanggal']);?></td></tr>
-    <tr><td>Kode Pelanggan</td> <td>:&nbsp;</td><td><?php echo $data0['kode_pelanggan']; ?></td></tr>
+    <tr><td>Kode Pelanggan</td> <td>:&nbsp;</td><td><?php echo $data0['nama_pelanggan']; ?></td></tr>
 
   </tbody>
 </table>      
@@ -90,20 +90,17 @@ $no_faktur_retur = $_SESSION['no_faktur_retur'];
         <tbody>
         <?php
 
-            $query5 = $db->query("SELECT * FROM detail_retur_penjualan WHERE no_faktur_retur = '$no_faktur_retur' ");
+            $query5 = $db->query("SELECT drp.kode_barang ,drp.nama_barang ,drp.jumlah_retur ,s.nama ,drp.harga ,drp.potongan ,drp.subtotal ,drp.tax FROM detail_retur_penjualan drp INNER JOIN satuan s ON drp.satuan = s.id  WHERE drp.no_faktur_retur = '$no_faktur_retur' ");
             //menyimpan data sementara yang ada pada $perintah
             while ($data5 = mysqli_fetch_array($query5))
             {
-
-              $query01 = $db->query("SELECT * FROM barang WHERE kode_barang = '$data5[kode_barang]'");
-              $cek = mysqli_fetch_array($query01);
 
               
             echo "<tr>
                 <td>". $data5['kode_barang'] ."</td>
                 <td>". $data5['nama_barang'] ."</td>
                 <td>". $data5['jumlah_retur'] ."</td>
-                <td>". $cek['satuan'] ."</td>
+                <td>". $data5['nama'] ."</td>
                 <td>". rp($data5['harga']) ."</td>
                 <td>". rp($data5['potongan']) ."</td>
                 <td>". rp($data0['total']) ."</td>

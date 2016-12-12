@@ -193,7 +193,7 @@ $jumlah = mysqli_num_rows($cek);
                 <td><span id='text-potongan-".$data1['id']."'>". rp($data1['potongan']) ."</span></td>
                 <td><span id='text-tax-".$data1['id']."'>". rp($data1['tax']) ."</span></td>";
 
-               echo "<td> <button class='btn btn-danger btn-hapus-tbs' data-id='". $data1['id'] ."' data-kode-barang='". $data1['kode_barang'] ."' data-barang='". $data1['nama_barang'] ."' data-subtotal='". $data1['subtotal'] ."'>Hapus</button> </td> 
+                echo "<td style='font-size:15px'> <button class='btn btn-danger btn-hapus-tbs' id='hapus-tbs-".$data1['id']."' data-id='". $data1['id'] ."' data-kode-barang='". $data1['kode_barang'] ."' data-barang='". $data1['nama_barang'] ."' data-subtotal='". $data1['subtotal'] ."'>Hapus</button> </td> 
 
                 </tr>";
 
@@ -207,7 +207,8 @@ mysqli_close($db);
 
 
 
-                           <script type="text/javascript">
+     
+                            <script type="text/javascript">
                                  
                                  $(".edit-jumlah").dblclick(function(){
 
@@ -254,22 +255,25 @@ mysqli_close($db);
                                     $("#text-jumlah-"+id+"").text(jumlah_lama);
                                     $("#text-jumlah-"+id+"").show();
                                     $("#input-jumlah-"+id+"").attr("type", "hidden");
-
+                                    
                                      }
 
                                       else{
+
+                                    $("#text-jumlah-"+id+"").show();
+                                    $("#text-jumlah-"+id+"").text(jumlah_baru);
+                                    $("#hapus-tbs-"+id+"").attr('data-subtotal', subtotal);
+                                    $("#text-subtotal-"+id+"").text(tandaPemisahTitik(subtotal));
+                                    $("#text-tax-"+id+"").text(Math.round(jumlah_tax));
+                                    $("#input-jumlah-"+id+"").attr("type", "hidden"); 
+                                    $("#total2").val(tandaPemisahTitik(subtotal_penjualan)); 
 
                                      $.post("update_pesanan_barang.php",{jumlah_lama:jumlah_lama,tax:tax,id:id,jumlah_baru:jumlah_baru,kode_barang:kode_barang,potongan:potongan,harga:harga,jumlah_tax:jumlah_tax,subtotal:subtotal},function(info){
 
 
                                     
                                     
-                                    $("#text-jumlah-"+id+"").show();
-                                    $("#text-jumlah-"+id+"").text(jumlah_baru);
-                                    $("#text-subtotal-"+id+"").text(tandaPemisahTitik(subtotal));
-                                    $("#text-tax-"+id+"").text(Math.round(jumlah_tax));
-                                    $("#input-jumlah-"+id+"").attr("type", "hidden"); 
-                                    $("#total2").val(tandaPemisahTitik(subtotal_penjualan));
+        
 
 
                                     });

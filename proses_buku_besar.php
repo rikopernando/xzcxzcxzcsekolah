@@ -68,7 +68,7 @@ th {
 				<td></td>
 				<td>Saldo Awal</td>
 				<td></td>
-				<td></td>
+				<td><?php echo rp($saldo); ?></td>
 				<td></td>
 				<td><?php echo rp($saldo); ?></td>
 				</tr>
@@ -183,7 +183,7 @@ th {
 				<td>Saldo Awal</td>
 				<td></td>
 				<td></td>
-				<td></td>
+				<td><?php echo rp($saldo); ?></td>
 				<td></td>
 				<td><?php echo rp($saldo); ?></td>
 				</tr>

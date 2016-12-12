@@ -9,7 +9,7 @@ $sampai_tanggal = stringdoang($_POST['sampai_tanggal']);
 
 
 //menampilkan seluruh data yang ada pada tabel penjualan
-$perintah = $db->query("SELECT p.no_faktur_pembayaran,p.tanggal,p.nama_suplier,p.dari_kas,p.total,s.nama FROM pembayaran_hutang p INNER JOIN suplier s ON p.nama_suplier = s.id WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal' ORDER BY p.id DESC");
+$perintah = $db->query("SELECT da.nama_daftar_akun, p.no_faktur_pembayaran,p.tanggal,p.nama_suplier,p.dari_kas,p.total,s.nama FROM pembayaran_hutang p INNER JOIN suplier s ON p.nama_suplier = s.id INNER JOIN daftar_akun da ON p.dari_kas = da.kode_daftar_akun WHERE p.tanggal >= '$dari_tanggal' AND p.tanggal <= '$sampai_tanggal' ORDER BY p.id DESC");
 
 $query02 = $db->query("SELECT SUM(total) AS total_akhir FROM pembayaran_hutang WHERE tanggal >= '$dari_tanggal' AND tanggal <= '$sampai_tanggal'");
 $cek02 = mysqli_fetch_array($query02);
@@ -55,7 +55,7 @@ $total_akhir = $cek02['total_akhir'];
 			<td>". $data1['no_faktur_pembayaran'] ."</td>
 			<td>". $data1['tanggal'] ."</td>
 			<td>". $data1['nama'] ."</td>
-			<td>". $data1['dari_kas'] ."</td>
+			<td>". $data1['nama_daftar_akun'] ."</td>
 			<td>". $cek['potongan'] ."</td>
 			<td>". rp($data1['total']) ."</td>
 
